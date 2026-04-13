@@ -1,0 +1,1832 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七闻论坛 - 小众奇闻趣事交流社区</title>
+    <style>
+        /* 样式部分保持不变，和您原来的一样 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft Yahei", "SimSun", sans-serif;
+        }
+        body {
+            background-color: #f8f5f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        /* 顶部导航栏 */
+        .header {
+            background-color: #e6d9c3;
+            border-bottom: 2px solid #c9b38c;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-container {
+            width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #8b5a2b;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logo i {
+            font-style: normal;
+            font-size: 24px;
+        }
+        .nav {
+            display: flex;
+            gap: 25px;
+        }
+        .nav a {
+            color: #5d4037;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .nav a:hover, .nav a.active {
+            background-color: #d4b996;
+            color: #483224;
+        }
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        .user-actions button {
+            padding: 6px 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #c9b38c;
+            color: #483224;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .user-actions button:hover {
+            background-color: #b89e76;
+        }
+        /* 登录后用户信息 */
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #8b5a2b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .user-name {
+            color: #483224;
+            font-weight: 500;
+        }
+        .private-msg {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #8b5a2b;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .private-msg:hover {
+            background-color: #744a23;
+        }
+        .logout-btn {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #c9b38c;
+            color: #483224;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        /* 搜索栏 */
+        .search-bar {
+            width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            gap: 10px;
+        }
+        .search-bar input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #d4b996;
+            border-radius: 4px;
+            font-size: 15px;
+            background-color: #fff;
+            color: #333;
+        }
+        .search-bar button {
+            padding: 0 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #8b5a2b;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        /* 主体内容 */
+        .main {
+            width: 1200px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 25px;
+        }
+        /* 左侧论坛列表 */
+        .forum-list {
+            flex: 3;
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .forum-header {
+            background-color: #d4b996;
+            padding: 12px 20px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #483224;
+            border-bottom: 1px solid #c9b38c;
+        }
+        .thread-item {
+            display: flex;
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0e8df;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .thread-item:hover {
+            background-color: #faf6f0;
+        }
+        .thread-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 4px;
+            background-color: #f0e8df;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .thread-icon.qiwen {
+            background-color: #e6d9c3;
+            color: #8b5a2b;
+            font-size: 20px;
+        }
+        .thread-icon.life {
+            background-color: #f5ebe0;
+            color: #6d4c41;
+            font-size: 20px;
+        }
+        .thread-icon.game {
+            background-color: #f8f0e3;
+            color: #795548;
+            font-size: 20px;
+        }
+        .thread-icon.work {
+            background-color: #faf0e6;
+            color: #5d4037;
+            font-size: 20px;
+        }
+        .thread-content {
+            flex: 1;
+        }
+        .thread-title {
+            font-size: 17px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 6px;
+        }
+        .thread-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 13px;
+            color: #777;
+            flex-wrap: wrap;
+        }
+        .thread-author {
+            color: #8b5a2b;
+            font-weight: 500;
+        }
+        .thread-stats {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-left: auto;
+        }
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        /* 右侧侧边栏 */
+        .sidebar {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .sidebar-card {
+            background-color: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        .sidebar-header {
+            background-color: #d4b996;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #483224;
+            border-bottom: 1px solid #c9b38c;
+        }
+        .sidebar-content {
+            padding: 15px;
+        }
+        .hot-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .hot-tags a {
+            padding: 4px 10px;
+            background-color: #f0e8df;
+            color: #5d4037;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 15px;
+            transition: background-color 0.2s;
+        }
+        .hot-tags a:hover {
+            background-color: #e6d9c3;
+            color: #483224;
+        }
+        .online-users {
+            font-size: 14px;
+            color: #777;
+            line-height: 1.8;
+        }
+        .online-count {
+            color: #8b5a2b;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        /* 帖子详情弹窗 */
+        .thread-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .thread-content-detail {
+            background-color: #fff;
+            width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            position: relative;
+        }
+        .close-detail {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: #999;
+            cursor: pointer;
+        }
+        .close-detail:hover {
+            color: #333;
+        }
+        .detail-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #483224;
+            margin-bottom: 15px;
+            padding-right: 30px;
+        }
+        .detail-meta {
+            display: flex;
+            gap: 20px;
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0e8df;
+        }
+        .detail-author {
+            color: #8b5a2b;
+            font-weight: 500;
+        }
+        .detail-content {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .detail-content p {
+            margin-bottom: 15px;
+        }
+        .detail-replies {
+            border-top: 1px solid #f0e8df;
+            padding-top: 20px;
+        }
+        .replies-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #483224;
+            margin-bottom: 15px;
+        }
+        .reply-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+        .reply-author {
+            color: #8b5a2b;
+            font-weight: 500;
+            margin-right: 10px;
+        }
+        .reply-time {
+            font-size: 12px;
+            color: #999;
+        }
+        .reply-text {
+            margin-top: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+        /* 未登录弹窗 */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: #fff;
+            width: 400px;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 48px;
+            color: #c9b38c;
+            margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #483224;
+            margin-bottom: 15px;
+        }
+        .modal-desc {
+            font-size: 15px;
+            color: #777;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .modal-btn {
+            padding: 8px 25px;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .login-btn {
+            background-color: #8b5a2b;
+            color: #fff;
+        }
+        .cancel-btn {
+            background-color: #f0e8df;
+            color: #5d4037;
+        }
+        .login-btn:hover {
+            background-color: #744a23;
+        }
+        .cancel-btn:hover {
+            background-color: #e6d9c3;
+        }
+        /* 登录成功提示 */
+        .success-toast {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 2000;
+            display: none;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+        /* 登录表单 */
+        .login-form {
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #5d4037;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d4b996;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .error-msg {
+            color: #c0392b;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+        /* 底部版权 */
+        .footer {
+            background-color: #e6d9c3;
+            border-top: 2px solid #c9b38c;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+        .footer-container {
+            width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 14px;
+            color: #5d4037;
+        }
+        
+        /* ========== 私信界面样式 ========== */
+        .private-message-container {
+            width: 1200px;
+            margin: 30px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: flex;
+            height: 700px;
+            border: 1px solid #e6d9c3;
+        }
+        
+        /* 左侧聊天对象列表 */
+        .chat-sidebar {
+            width: 300px;
+            background-color: #fefcf8;
+            border-right: 1px solid #e6d9c3;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            background-color: #f8f5f0;
+            border-bottom: 2px solid #e6d9c3;
+        }
+        
+        .sidebar-header h3 {
+            color: #483224;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .chat-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .chat-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 5px;
+            border: 1px solid transparent;
+        }
+        
+        .chat-item:hover {
+            background-color: #f0e8df;
+        }
+        
+        .chat-item.active {
+            background-color: #e6d9c3;
+            border-color: #c9b38c;
+        }
+        
+        .chat-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .chat-avatar.admin {
+            background-color: #8b5a2b;
+        }
+        
+        .chat-avatar.xiangguo {
+            background-color: #6d4c41;
+        }
+        
+        .chat-avatar.lvyou {
+            background-color: #2c7a5a;
+        }
+        
+        .chat-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .chat-name {
+            font-weight: bold;
+            color: #483224;
+            margin-bottom: 4px;
+            font-size: 16px;
+        }
+        
+        .chat-preview {
+            font-size: 13px;
+            color: #777;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .chat-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 2px;
+        }
+        
+        .online-badge {
+            width: 8px;
+            height: 8px;
+            background-color: #4CAF50;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        /* 右侧聊天区域 */
+        .chat-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+        }
+        
+        .chat-header {
+            padding: 20px;
+            background-color: #f8f5f0;
+            border-bottom: 2px solid #e6d9c3;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .chat-header-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .chat-header-info {
+            flex: 1;
+        }
+        
+        .chat-header-name {
+            font-size: 20px;
+            font-weight: bold;
+            color: #483224;
+            margin-bottom: 4px;
+        }
+        
+        .chat-header-status {
+            font-size: 13px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-to-forum {
+            padding: 8px 20px;
+            background-color: #d4b996;
+            color: #483224;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .back-to-forum:hover {
+            background-color: #c9b38c;
+        }
+        
+        /* 聊天消息区域 */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 25px;
+            background-color: #fefcf8;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .message-row {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            max-width: 80%;
+        }
+        
+        .message-left {
+            align-self: flex-start;
+        }
+        
+        .message-right {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            max-width: calc(100% - 50px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .message-left .message-bubble {
+            background-color: #f0e8df;
+            color: #333;
+            border-radius: 18px 18px 18px 4px;
+        }
+        
+        .message-right .message-bubble {
+            background-color: #d4b996;
+            color: #2c3e50;
+            border-radius: 18px 18px 4px 18px;
+        }
+        
+        .message-time {
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+            margin-left: 46px;
+        }
+        
+        .message-right .message-time {
+            text-align: right;
+            margin-right: 46px;
+            margin-left: 0;
+        }
+        
+        /* 链接样式 */
+        .message-bubble a {
+            color: #8b5a2b;
+            text-decoration: underline;
+            word-break: break-all;
+        }
+        
+        .message-bubble a:hover {
+            color: #5d4037;
+        }
+        
+        /* 输入区域 */
+        .chat-input-area {
+            padding: 20px;
+            background-color: #f8f5f0;
+            border-top: 1px solid #e6d9c3;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .chat-input-area input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid #d4b996;
+            border-radius: 30px;
+            outline: none;
+            font-size: 15px;
+            background-color: #fff;
+        }
+        
+        .chat-input-area input:focus {
+            border-color: #8b5a2b;
+        }
+        
+        .chat-input-area button {
+            padding: 12px 30px;
+            background-color: #8b5a2b;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .chat-input-area button:hover {
+            background-color: #744a23;
+        }
+        
+        /* 私信入口按钮 */
+        .go-to-private {
+            display: inline-block;
+            padding: 8px 20px;
+            background-color: #8b5a2b;
+            color: white;
+            text-decoration: none;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-left: 15px;
+            border: none;
+            cursor: pointer;
+        }
+        .go-to-private:hover {
+            background-color: #744a23;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i>🔍</i> 七闻论坛
+            </a>
+            <div class="nav">
+                <a href="#" class="active" onclick="showForum()">首页</a>
+                <a href="#" onclick="showForum()">奇闻异事</a>
+                <a href="#" onclick="showForum()">生活分享</a>
+                <a href="#" onclick="showForum()">游戏交流</a>
+                <a href="#" onclick="showForum()">职场吐槽</a>
+            </div>
+            <div class="user-actions" id="userActions">
+                <button id="loginBtn">登录</button>
+                <button id="registerBtn">注册</button>
+            </div>
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar">陈</div>
+                <span class="user-name" id="displayName">灵感枯竭的菜鸡</span>
+                <button class="private-msg" id="privateMsgBtn">💬 私信</button>
+                <button class="logout-btn" id="logoutBtn">退出</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索栏 -->
+    <div class="search-bar" id="searchBar">
+        <input type="text" placeholder="搜索帖子、话题、用户...">
+        <button>搜索</button>
+    </div>
+
+    <!-- 论坛主体内容 (默认显示) -->
+    <div id="forumContent">
+        <div class="main">
+            <!-- 左侧论坛列表 -->
+            <div class="forum-list">
+                <div class="forum-header">最新帖子</div>
+                <!-- 青山村相关帖子 -->
+                <div class="thread-item" data-thread="qingshancun">
+                    <div class="thread-icon qiwen">🌄</div>
+                    <div class="thread-content">
+                        <div class="thread-title">冷门小众旅游景点推荐-<strong>青山村</strong></div>
+                        <div class="thread-meta">
+                            <span class="thread-author">旅游发烧者</span>
+                            <span class="thread-date">2026-01-10</span>
+                            <span class="thread-category">旅行分享</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：1286</div>
+                                <div class="stat-item">💬 36</div>
+                                <div class="stat-item">🔥 42</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 生活分享1 -->
+                <div class="thread-item" data-thread="life1">
+                    <div class="thread-icon life">🍜</div>
+                    <div class="thread-content">
+                        <div class="thread-title">分享我家楼下的宝藏面馆，杂酱面配酸梅汤绝了！</div>
+                        <div class="thread-meta">
+                            <span class="thread-author">吃货小夏</span>
+                            <span class="thread-date">2026-02-18</span>
+                            <span class="thread-category">生活分享</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：852</div>
+                                <div class="stat-item">💬 24</div>
+                                <div class="stat-item">🔥 18</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 游戏交流 -->
+                <div class="thread-item" data-thread="game1">
+                    <div class="thread-icon game">🎮</div>
+                    <div class="thread-content">
+                        <div class="thread-title">新出的开放世界游戏太香了，肝了3天终于通关主线</div>
+                        <div class="thread-meta">
+                            <span class="thread-author">电竞菜鸡</span>
+                            <span class="thread-date">2026-02-15</span>
+                            <span class="thread-category">游戏交流</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：2341</div>
+                                <div class="stat-item">💬 108</div>
+                                <div class="stat-item">🔥 76</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 职场吐槽 -->
+                <div class="thread-item" data-thread="work1">
+                    <div class="thread-icon work">💼</div>
+                    <div class="thread-content">
+                        <div class="thread-title">老板让我无偿加班还PUA，现在辞职还来得及吗？</div>
+                        <div class="thread-meta">
+                            <span class="thread-author">打工人阿泽</span>
+                            <span class="thread-date">2026-02-12</span>
+                            <span class="thread-category">职场吐槽</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：1963</div>
+                                <div class="stat-item">💬 89</div>
+                                <div class="stat-item">🔥 63</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 生活分享2 -->
+                <div class="thread-item" data-thread="life2">
+                    <div class="thread-icon life">🌱</div>
+                    <div class="thread-content">
+                        <div class="thread-title">阳台种菜成功！自己种的小番茄酸甜多汁，太有成就感了</div>
+                        <div class="thread-meta">
+                            <span class="thread-author">阳台农夫</span>
+                            <span class="thread-date">2026-02-08</span>
+                            <span class="thread-category">生活分享</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：728</div>
+                                <div class="stat-item">💬 31</div>
+                                <div class="stat-item">🔥 25</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 奇闻异事 -->
+                <div class="thread-item" data-thread="qiwen1">
+                    <div class="thread-icon qiwen">🌙</div>
+                    <div class="thread-content">
+                        <div class="thread-title">老家废弃火车站的怪谈，半夜总能听到火车鸣笛声</div>
+                        <div class="thread-meta">
+                            <span class="thread-author">夜猫子阿凯</span>
+                            <span class="thread-date">2026-01-28</span>
+                            <span class="thread-category">奇闻异事</span>
+                            <div class="thread-stats">
+                                <div class="stat-item">浏览量：1562</div>
+                                <div class="stat-item">💬 47</div>
+                                <div class="stat-item">🔥 39</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧侧边栏 -->
+            <div class="sidebar">
+                <div class="sidebar-card">
+                    <div class="sidebar-header">热门标签</div>
+                    <div class="sidebar-content">
+                        <div class="hot-tags">
+                            <a href="#">美食探店</a>
+                            <a href="#">游戏攻略</a>
+                            <a href="#">职场技巧</a>
+                            <a href="#">乡村奇闻</a>
+                            <a href="#">宠物日常</a>
+                            <a href="#">旅行分享</a>
+                            <a href="#">悬疑故事</a>
+                            <a href="#">影视推荐</a>
+                            <a href="#">读书感悟</a>
+                            <a href="#">数码测评</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="sidebar-card">
+                    <div class="sidebar-header">在线用户</div>
+                    <div class="sidebar-content">
+                        <div class="online-users">
+                            <p>当前在线：<span class="online-count">286</span> 人</p>
+                            <p>今日新增：15 人</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- 论坛公告 -->
+                <div class="sidebar-card">
+                    <div class="sidebar-header">论坛公告</div>
+                    <div class="sidebar-content">
+                        <div class="online-users">
+                            <p>📢 论坛新功能上线：支持帖子点赞收藏</p>
+                            <p>📢 严禁发布违规内容，违者封号处理</p>
+                            <p>📢 2026年春节活动获奖名单已公布</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 底部版权 -->
+        <div class="footer">
+            <div class="footer-container">
+                <p>七闻论坛 © 2010-2026 版权所有 | 小众奇闻趣事交流社区</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 私信界面 (初始隐藏) -->
+    <div id="privateContent" style="display: none;">
+        <div class="private-message-container">
+            <!-- 左侧聊天对象列表 -->
+            <div class="chat-sidebar">
+                <div class="sidebar-header">
+                    <h3>💬 消息列表</h3>
+                </div>
+                <div class="chat-list">
+                    <!-- 管理员 -->
+                    <div class="chat-item active" onclick="switchChat('admin')" id="chat-item-admin">
+                        <div class="chat-avatar admin">管</div>
+                        <div class="chat-info">
+                            <div class="chat-name">
+                                论坛管理员
+                                <span class="online-badge"></span>
+                            </div>
+                            <div class="chat-preview">亲爱的新用户：您好！欢迎注册...</div>
+                            <div class="chat-time">2026-01-18</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 想过就哭了吗 -->
+                    <div class="chat-item" onclick="switchChat('xiangguo')" id="chat-item-xiangguo">
+                        <div class="chat-avatar xiangguo">想</div>
+                        <div class="chat-info">
+                            <div class="chat-name">
+                                想过就哭了吗
+                                <span class="online-badge"></span>
+                            </div>
+                            <div class="chat-preview">挺懂算不上，就是出事这个人...</div>
+                            <div class="chat-time">2026-01-18</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 驴友小张 -->
+                    <div class="chat-item" onclick="switchChat('lvyou')" id="chat-item-lvyou">
+                        <div class="chat-avatar lvyou">驴</div>
+                        <div class="chat-info">
+                            <div class="chat-name">
+                                驴友小张
+                                <span class="online-badge"></span>
+                            </div>
+                            <div class="chat-preview">兄弟你们是开玩笑对吧？</div>
+                            <div class="chat-time">2026-01-18</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧聊天区域 -->
+            <div class="chat-main" id="chat-main">
+                <!-- 管理员聊天窗口 -->
+                <div id="chat-admin" style="display: flex; flex-direction: column; height: 100%; width: 100%;">
+                    <div class="chat-header">
+                        <div class="chat-header-avatar admin">管</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">论坛管理员</div>
+                            <div class="chat-header-status">
+                                <span class="online-badge"></span> 在线 · 官方账号
+                            </div>
+                        </div>
+                        <button class="back-to-forum" onclick="showForum()">← 返回论坛</button>
+                    </div>
+                    
+                    <div class="chat-messages" id="messages-admin">
+                        <!-- 系统欢迎消息 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar admin">管</div>
+                            <div class="message-bubble">
+                                亲爱的新用户：<br>
+                                您好！欢迎注册加入本论坛，感谢您的信任与选择。<br>
+                                这里是交流分享、互助成长、理性友善的公共平台，我们致力于为大家营造文明、合规、有序的沟通环境。请您在发布内容、参与互动时，遵守法律法规及论坛管理规定，尊重他人、理性发言，不传播违规、低俗、侵权内容。<br>
+                                如有使用疑问、功能建议或需要帮助，可随时联系论坛管理员。期待与您一起，共建积极健康、有温度、有价值的社区氛围。祝您在论坛交流愉快！<br>
+                                论坛管理组 官方敬上。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 14:30</div>
+
+                        
+                            
+                        </div>
+                       
+                    
+                    <div class="chat-input-area">
+                        <input type="text" placeholder="输入消息..." value="输入消息..." disabled>
+                        <button disabled>发送</button>
+                    </div>
+                </div>
+
+                <!-- 想过就哭了吗 聊天窗口 (初始隐藏) -->
+                <div id="chat-xiangguo" style="display: none; flex-direction: column; height: 100%; width: 100%;">
+                    <div class="chat-header">
+                        <div class="chat-header-avatar xiangguo">想</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">想过就哭了吗</div>
+                            <div class="chat-header-status">
+                                <span class="online-badge"></span> 在线 · 最后活跃5分钟前
+                            </div>
+                        </div>
+                        <button class="back-to-forum" onclick="showForum()">← 返回论坛</button>
+                    </div>
+                    
+                    <div class="chat-messages" id="messages-xiangguo">
+                        <!-- 我发起对话 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                您好，我是刚才青山村帖子的，官方是真麻利，瞬间就封。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 12:35</div>
+
+                        <!-- 想过就哭了吗 回复 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar xiangguo">想</div>
+                            <div class="message-bubble">
+                                挺懂算不上，就是出事这个人在我隔壁村，好像姓王，挺有本事的，走出了村子，但不知道什么原因去了青山村就再也没有回来，至于其他消息我就不知道了。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 12:40</div>
+
+                        <!-- 我继续 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                OK，等过了年，我去一趟看看，感谢您的消息。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 12:42</div>
+
+                        <!-- 想过就哭了吗 提醒 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar xiangguo">想</div>
+                            <div class="message-bubble">
+                                哥们，你是真牛逼，这是明知山有虎偏向虎山行，行，别怪我没说过。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 12:45</div>
+
+                        <!-- 我解释动机 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                现在有个素材，就有无数媒体记者凑上去，吃的一点不剩，狼多肉少呀，现在这个素材估计就我知道，我要把握好这个机会。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 12:48</div>
+
+                        <!-- 想过就哭了吗 无语 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar xiangguo">想</div>
+                            <div class="message-bubble">
+                                ......没啥好说的了哥们，安全最重要。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 12:50</div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <input type="text" placeholder="输入消息..." value="输入消息..." disabled>
+                        <button disabled>发送</button>
+                    </div>
+                </div>
+
+                <!-- 驴友小张 聊天窗口 (初始隐藏) -->
+                <div id="chat-lvyou" style="display: none; flex-direction: column; height: 100%; width: 100%;">
+                    <div class="chat-header">
+                        <div class="chat-header-avatar lvyou">驴</div>
+                        <div class="chat-header-info">
+                            <div class="chat-header-name">驴友小张</div>
+                            <div class="chat-header-status">
+                                <span class="online-badge"></span> 在线 · 户外爱好者
+                            </div>
+                        </div>
+                        <button class="back-to-forum" onclick="showForum()">← 返回论坛</button>
+                    </div>
+                    
+                    <div class="chat-messages" id="messages-lvyou">
+                        <!-- 驴友小张 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar lvyou">驴</div>
+                            <div class="message-bubble">
+                                兄弟你们是开玩笑对吧？
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 13:20</div>
+
+                        <!-- 我回复 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                兄弟要不我把我的记者证亮出来。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 13:22</div>
+
+                        <!-- 驴友小张 惊讶 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar lvyou">驴</div>
+                            <div class="message-bubble">
+                                啊啊啊，要把青山村放到我旅游黑名单了。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 13:25</div>
+
+                        <!-- 我追问线索 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                哈哈，不用这么害怕，哪里不会发生一些事情呀，对了兄弟你有没有什么线索可以分享的。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 13:28</div>
+
+                        <!-- 驴友小张 提供面馆网站链接 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar lvyou">驴</div>
+                            <div class="message-bubble">
+                                emm，线索，我倒是有当年那家面馆的网站：<a href="青山面馆.html" target="_blank">https://qingshan-noodle.com/</a>
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 13:32</div>
+
+                        <!-- 我疑惑 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                网站？小山村的小面馆还有官方网站？
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 13:34</div>
+
+                        <!-- 驴友小张 解释 -->
+                        <div class="message-row message-left">
+                            <div class="message-avatar lvyou">驴</div>
+                            <div class="message-bubble">
+                                被你一提好像是有一些奇怪，但可能是老板孩子是学前端的？练手做的，好了不聊了，越聊越害怕。
+                            </div>
+                        </div>
+                        <div class="message-time">2026-01-18 13:38</div>
+
+                        <!-- 我结束语 -->
+                        <div class="message-row message-right">
+                            <div class="message-bubble">
+                                好的，谢谢啦，有消息再联系。
+                            </div>
+                            
+                        </div>
+                        <div class="message-time">2026-01-18 13:40</div>
+                    </div>
+                    
+                    <div class="chat-input-area">
+                        <input type="text" placeholder="输入消息..." value="输入消息..." disabled>
+                        <button disabled>发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录成功提示 -->
+    <div class="success-toast" id="successToast">登录成功！欢迎回来</div>
+
+    <!-- 未登录弹窗 -->
+    <div class="login-modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-icon">🔒</div>
+            <div class="modal-title">您尚未登录</div>
+            <div class="modal-desc">
+                查看帖子内容需先登录账号，登录后可参与评论、点赞、收藏等操作~
+            </div>
+            <div class="modal-buttons">
+                <button class="modal-btn login-btn" id="gotoLogin">去登录</button>
+                <button class="modal-btn cancel-btn" id="closeModal">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录表单弹窗 -->
+    <div class="login-modal" id="loginFormModal">
+        <div class="modal-content">
+            <div class="modal-icon">👤</div>
+            <div class="modal-title">登录七闻论坛</div>
+            <div class="form-group">
+                <label>账号</label>
+                <input type="text" id="username" placeholder="请输入账号">
+            </div>
+            <div class="form-group">
+                <label>密码</label>
+                <input type="password" id="password" placeholder="请输入密码">
+            </div>
+            <div class="error-msg" id="loginError">账号或密码错误</div>
+            <div class="modal-buttons">
+                <button class="modal-btn login-btn" id="doLogin">登录</button>
+                <button class="modal-btn cancel-btn" id="closeLoginForm">取消</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 帖子详情弹窗 - 青山村 -->
+    <div class="thread-modal" id="threadModalQingshancun">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('qingshancun')">&times;</span>
+            <div class="detail-title">冷门小众旅游景点推荐-青山村</div>
+            <div class="detail-meta">
+                <span class="detail-author">旅游发烧者</span>
+                <span>2026-01-17</span>
+                <span>浏览 1286</span>
+            </div>
+            <div class="detail-content">
+                <p>上周去了一个超冷门的小村子——青山村，真的是太值得一去了，清晨的薄雾笼罩山间，傍晚的夕阳洒在青瓦白墙上，美得像一幅水墨画。</p>
+                <p>村子在山里，虽然风景确实不错，但村民看到游客好像都不太热情。村口有家老面馆，老板倒是挺和善的，我点了腊肉拌面和<strong>艾草煎蛋</strong>，但老板盯了我好久说<strong>艾草煎蛋</strong>这道菜药性太强，你承受不住，只给我上了面，但味道真是不错。</p>
+                <p>我去了青山古民居群，有保存完好的明清建筑十余栋，石板老街，青石板路被岁月磨得光滑如镜，青山湖等等，最让我震惊的是青峰云海，云雾缭绕山间，站在山顶俯瞰，云海翻腾，宛如仙境。当地人说这是“山神呼吸”的气息。</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (36)</div>
+                <div class="reply-item">
+                    <span class="reply-author">山野猎人</span>
+                    <span class="reply-time">2026-01-18 09:23</span>
+                    <div class="reply-text">我也去过！如此风景真是少见。</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">驴友小张</span>
+                    <span class="reply-time">2026-01-18 10:57</span>
+                    <div class="reply-text">+1+1，我是24年去的，也点了腊肉拌面，回味无穷，有时间一定二刷。</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">想过就哭了吗</span>
+                    <span class="reply-time">2026-01-18 12:05</span>
+                    <div class="reply-text">不是，出了那一档子事你们真敢去呀，哈人。</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">驴友小张</span>
+                    <span class="reply-time">2026-01-18 12:10</span>
+                    <div class="reply-text">@想过就哭了吗 什么意思，你别吓我。</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">想过就哭了吗</span>
+                    <span class="reply-time">2026-01-18 12:15</span>
+                    <div class="reply-text">那边人没有给你们说青山村后山吗</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">旅游发烧者（作者）</span>
+                    <span class="reply-time">2026-01-18 12:16</span>
+                    <div class="reply-text">好像是说过，但是天气这么干不让游客去不是很正常吗，防止火灾。</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">想过就哭了吗</span>
+                    <span class="reply-time">2026-01-18 12:18</span>
+                    <div class="reply-text">你还真信，只是表面说辞罢了，这后山与16年前的一桩失踪案有关。</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">驴友小张</span>
+                    <span class="reply-time">2026-01-18 12:18</span>
+                    <div class="reply-text">我艹，真的假的？</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">灵感枯竭的菜鸡</span>
+                    <span class="reply-time">2026-01-18 12:25</span>
+                    <div class="reply-text">应该不是假的，我是做记者相关专业的，有很多网站查不到的内容，我刚才也以为是骗人水经验的，结果回系统一查好像真有这回事。</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">旅游发烧者（作者）</span>
+                    <span class="reply-time">2026-01-18 12:27</span>
+                    <div class="reply-text">你们不是合伙吓人的吧，我现在鸡皮疙瘩都起来了。</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">驴友小张</span>
+                    <span class="reply-time">2026-01-18 12:28</span>
+                    <div class="reply-text">@旅游发烧者 +1.....</div>
+                </div>
+                <div class="reply-item">
+                   <span class="reply-author">灵感枯竭的菜鸡</span>
+                    <span class="reply-time">2026-01-18 12:30</span>
+                    <div class="reply-text">正愁没有素材了，@想过就哭了吗 可以私信吗。</div>
+                </div>
+               <div class="reply-item" style="background-color: #f0e8df; border-left: 4px solid #c0392b; padding-left: 15px; margin-bottom: 10px;">
+                 <span class="reply-author"><strong>论坛管理员</strong></span>
+                 <span class="reply-time">2026-01-18 12:30</span>
+                 <div class="reply-text" style="color: #c0392b; font-weight: 500;">⚠️ 对话内容涉及敏感内容，现将该帖封禁</div>
+               </div>
+               <div style="margin-top: 20px; padding: 15px; background-color: #f8f0e0; border: 2px solid #c0392b; border-radius: 6px; text-align: center;">
+                  <span style="font-size: 20px; color: #c0392b; font-weight: bold;">🚫 该帖已被封禁</span>
+                  <p style="margin-top: 8px; color: #666; font-size: 14px;">因违反论坛规定，此帖子已限制访问，仅管理员可见</p>
+               </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生活分享1帖子详情弹窗 -->
+    <div class="thread-modal" id="threadModalLife1">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('life1')">&times;</span>
+            <div class="detail-title">分享我家楼下的宝藏面馆</div>
+            <div class="detail-meta">
+                <span class="detail-author">吃货小夏</span>
+                <span>2026-02-18</span>
+                <span>浏览 852</span>
+            </div>
+            <div class="detail-content">
+                <p>终于找到了一家神仙面馆！就在我家楼下开了十年的老店，招牌杂酱面真的是绝绝子！</p>
+                <p>面条是手工拉的，特别劲道，杂酱里的肉丁炒得焦香，配上黄瓜丝和豆芽，一口下去太满足了。重点是他们家的酸梅汤，是老板自己熬的，酸甜适中，夏天来一碗冰镇的简直不要太爽。</p>
+                <p>价格也很良心，杂酱面才15块钱，酸梅汤5块钱，性价比超高！住附近的朋友一定要去试试，就在幸福路和建设路交叉口，店名叫“老北京炸酱面”。</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (24)</div>
+                <div class="reply-item">
+                    <span class="reply-author">美食猎人</span>
+                    <span class="reply-time">2026-02-18 13:45</span>
+                    <div class="reply-text">看着就好吃！明天就去打卡！</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">附近居民</span>
+                    <span class="reply-time">2026-02-19 09:12</span>
+                    <div class="reply-text">这家我吃了好几年了，老板人特别好，有时候还会多给点肉😂</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 游戏帖子详情弹窗 -->
+    <div class="thread-modal" id="threadModalGame1">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('game1')">&times;</span>
+            <div class="detail-title">新出的开放世界游戏太香了，肝了3天终于通关主线</div>
+            <div class="detail-meta">
+                <span class="detail-author">电竞菜鸡</span>
+                <span>2026-02-15</span>
+                <span>浏览 2341</span>
+            </div>
+            <div class="detail-content">
+                <p>作为一个资深游戏宅，最近出的这款《荒野传说》真的太上头了！开放世界+生存建造+剧情解谜，要素拉满！</p>
+                <p>画面真的绝美，尤其是晚上的星空，还有极光效果。战斗系统也很流畅，就是前期有点难，被野猪追着跑了好几次😂</p>
+                <p>主线剧情大概30小时左右，支线据说有100多个，够玩一个月了。还没入手的强烈推荐！</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (108)</div>
+                <div class="reply-item">
+                    <span class="reply-author">游戏老王</span>
+                    <span class="reply-time">2026-02-15 20:30</span>
+                    <div class="reply-text">我也在玩！组队吗？加个好友！</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">云玩家</span>
+                    <span class="reply-time">2026-02-16 10:15</span>
+                    <div class="reply-text">看着不错，等打折再入</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 职场帖子详情弹窗 -->
+    <div class="thread-modal" id="threadModalWork1">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('work1')">&times;</span>
+            <div class="detail-title">老板让我无偿加班还PUA，现在辞职还来得及吗？</div>
+            <div class="detail-meta">
+                <span class="detail-author">打工人阿泽</span>
+                <span>2026-02-12</span>
+                <span>浏览 1963</span>
+            </div>
+            <div class="detail-content">
+                <p>入职三个月，最近越来越受不了了。老板天天让我无偿加班，最晚一次干到凌晨两点，第二天还要正常上班。</p>
+                <p>更恶心的是他还PUA我，说我能力不行，需要多锻炼，锻炼就是无偿加班？还说现在大环境不好，有工作就不错了，让我珍惜机会。</p>
+                <p>真的想辞职了，但又怕找不到更好的，好纠结...</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (89)</div>
+                <div class="reply-item">
+                    <span class="reply-author">职场老鸟</span>
+                    <span class="reply-time">2026-02-12 18:30</span>
+                    <div class="reply-text">这种老板不值得跟，趁早走人！</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">法学毕业</span>
+                    <span class="reply-time">2026-02-13 09:45</span>
+                    <div class="reply-text">保留加班证据，离职后可以申请劳动仲裁</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 生活分享2帖子详情弹窗 -->
+    <div class="thread-modal" id="threadModalLife2">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('life2')">&times;</span>
+            <div class="detail-title">阳台种菜成功！自己种的小番茄酸甜多汁，太有成就感了</div>
+            <div class="detail-meta">
+                <span class="detail-author">阳台农夫</span>
+                <span>2026-02-08</span>
+                <span>浏览 728</span>
+            </div>
+            <div class="detail-content">
+                <p>种了两个月的圣女果终于丰收啦！看着它们从小苗苗长到现在挂满果子，太有成就感了！</p>
+                <p>摘下来洗洗直接吃，酸甜多汁，比超市买的好吃多了。自己种的没有农药，吃着也放心。</p>
+                <p>强烈推荐大家也在阳台种点蔬菜，每天看着它们长大真的很治愈～</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (31)</div>
+                <div class="reply-item">
+                    <span class="reply-author">园艺小白</span>
+                    <span class="reply-time">2026-02-09 14:20</span>
+                    <div class="reply-text">求教程！我也想在阳台种！</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">植物杀手</span>
+                    <span class="reply-time">2026-02-10 11:05</span>
+                    <div class="reply-text">我养啥死啥，还是看看你的吧😭</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 奇闻帖子详情弹窗 -->
+    <div class="thread-modal" id="threadModalQiwen1">
+        <div class="thread-content-detail">
+            <span class="close-detail" onclick="closeThread('qiwen1')">&times;</span>
+            <div class="detail-title">老家废弃火车站的怪谈，半夜总能听到火车鸣笛声</div>
+            <div class="detail-meta">
+                <span class="detail-author">夜猫子阿凯</span>
+                <span>2026-01-28</span>
+                <span>浏览 1562</span>
+            </div>
+            <div class="detail-content">
+                <p>老家有个废弃了二十年的火车站，铁轨都锈没了，站房也塌了一半。但是奇怪的是，附近的村民经常在半夜听到火车鸣笛声。</p>
+                <p>我小时候也听过几次，声音很清晰，就像真的有火车经过一样。但出去看什么都没有。老人说是以前的火车在“走阴”，不能去看。</p>
+                <p>有没有懂的朋友解释一下？</p>
+            </div>
+            <div class="detail-replies">
+                <div class="replies-title">全部回复 (47)</div>
+                <div class="reply-item">
+                    <span class="reply-author">灵异爱好者</span>
+                    <span class="reply-time">2026-01-29 22:15</span>
+                    <div class="reply-text">这种我也听说过，好像是说火车出了事故，冤魂不散</div>
+                </div>
+                <div class="reply-item">
+                    <span class="reply-author">科学怪人</span>
+                    <span class="reply-time">2026-01-30 08:30</span>
+                    <div class="reply-text">可能是风声或者其他自然现象，别自己吓自己</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 状态变量
+        let isLoggedIn = false;
+
+        // 获取元素
+        const loginModal = document.getElementById('loginModal');
+        const loginFormModal = document.getElementById('loginFormModal');
+        const successToast = document.getElementById('successToast');
+        const closeModal = document.getElementById('closeModal');
+        const closeLoginForm = document.getElementById('closeLoginForm');
+        const gotoLogin = document.getElementById('gotoLogin');
+        const loginBtn = document.getElementById('loginBtn');
+        const registerBtn = document.getElementById('registerBtn');
+        const doLogin = document.getElementById('doLogin');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const privateMsgBtn = document.getElementById('privateMsgBtn');
+        const userActions = document.getElementById('userActions');
+        const userInfo = document.getElementById('userInfo');
+        const displayName = document.getElementById('displayName');
+        const loginError = document.getElementById('loginError');
+        
+        // 论坛和私信内容区域
+        const forumContent = document.getElementById('forumContent');
+        const privateContent = document.getElementById('privateContent');
+        const searchBar = document.getElementById('searchBar');
+
+        // 当前选中的聊天对象
+        let currentChat = 'admin';
+
+        // 切换聊天窗口
+        window.switchChat = function(chatId) {
+            // 隐藏所有聊天窗口
+            document.getElementById('chat-admin').style.display = 'none';
+            document.getElementById('chat-xiangguo').style.display = 'none';
+            document.getElementById('chat-lvyou').style.display = 'none';
+            
+            // 显示选中的聊天窗口
+            document.getElementById('chat-' + chatId).style.display = 'flex';
+            
+            // 更新左侧列表的active状态
+            document.getElementById('chat-item-admin').classList.remove('active');
+            document.getElementById('chat-item-xiangguo').classList.remove('active');
+            document.getElementById('chat-item-lvyou').classList.remove('active');
+            document.getElementById('chat-item-' + chatId).classList.add('active');
+            
+            // 滚动到底部
+            setTimeout(() => {
+                const messagesDiv = document.getElementById('messages-' + chatId);
+                if (messagesDiv) {
+                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                }
+            }, 100);
+            
+            currentChat = chatId;
+        };
+
+        // 显示论坛
+        window.showForum = function() {
+            forumContent.style.display = 'block';
+            privateContent.style.display = 'none';
+            searchBar.style.display = 'flex';
+        };
+
+        // 显示私信
+        window.showPrivate = function() {
+            if (!isLoggedIn) {
+                loginModal.style.display = 'flex';
+                return;
+            }
+            forumContent.style.display = 'none';
+            privateContent.style.display = 'block';
+            searchBar.style.display = 'none';
+            // 默认显示管理员聊天
+            switchChat('admin');
+        };
+
+        // 私信按钮点击
+        if (privateMsgBtn) {
+            privateMsgBtn.addEventListener('click', function() {
+                showPrivate();
+            });
+        }
+
+        // 关闭未登录弹窗
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+            });
+        }
+
+        // 点击去登录
+        if (gotoLogin) {
+            gotoLogin.addEventListener('click', () => {
+                loginModal.style.display = 'none';
+                loginFormModal.style.display = 'flex';
+            });
+        }
+
+        // 关闭登录表单
+        if (closeLoginForm) {
+            closeLoginForm.addEventListener('click', () => {
+                loginFormModal.style.display = 'none';
+            });
+        }
+
+        // 点击弹窗外部关闭
+        if (loginModal) {
+            loginModal.addEventListener('click', (e) => {
+                if (e.target === loginModal) loginModal.style.display = 'none';
+            });
+        }
+        
+        if (loginFormModal) {
+            loginFormModal.addEventListener('click', (e) => {
+                if (e.target === loginFormModal) loginFormModal.style.display = 'none';
+            });
+        }
+
+        // 登录按钮
+        if (loginBtn) {
+            loginBtn.addEventListener('click', () => {
+                loginFormModal.style.display = 'flex';
+            });
+        }
+
+        // 注册按钮
+        if (registerBtn) {
+            registerBtn.addEventListener('click', () => {
+                alert('注册功能暂未开放，请使用账号1密码1登录');
+            });
+        }
+
+        // 执行登录
+        if (doLogin) {
+            doLogin.addEventListener('click', () => {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (username === 'chenyu0912' && password === 'jgjssl') {
+                    isLoggedIn = true;
+                    loginFormModal.style.display = 'none';
+                    
+                    successToast.style.display = 'block';
+                    
+                    userActions.style.display = 'none';
+                    userInfo.style.display = 'flex';
+                    displayName.textContent = '灵感枯竭的菜鸡';
+                    
+                    setTimeout(() => {
+                        successToast.style.display = 'none';
+                    }, 2000);
+                    
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    loginError.style.display = 'none';
+                } else {
+                    loginError.style.display = 'block';
+                }
+            });
+        }
+
+        // 退出登录
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', () => {
+                isLoggedIn = false;
+                userActions.style.display = 'flex';
+                userInfo.style.display = 'none';
+                showForum(); // 退出时返回论坛
+                
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+                loginError.style.display = 'none';
+            });
+        }
+
+        // 点击帖子
+        document.querySelectorAll('.thread-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const threadId = this.getAttribute('data-thread');
+                
+                if (!isLoggedIn) {
+                    loginModal.style.display = 'flex';
+                    return;
+                }
+                
+                // 先关闭所有帖子弹窗
+                document.querySelectorAll('.thread-modal').forEach(modal => {
+                    modal.style.display = 'none';
+                });
+                
+                // 直接通过ID获取弹窗
+                let modalId = '';
+                if (threadId === 'qingshancun') modalId = 'threadModalQingshancun';
+                else if (threadId === 'life1') modalId = 'threadModalLife1';
+                else if (threadId === 'game1') modalId = 'threadModalGame1';
+                else if (threadId === 'work1') modalId = 'threadModalWork1';
+                else if (threadId === 'life2') modalId = 'threadModalLife2';
+                else if (threadId === 'qiwen1') modalId = 'threadModalQiwen1';
+                
+                if (modalId) {
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    }
+                }
+            });
+        });
+
+        // 点击弹窗背景关闭
+        document.querySelectorAll('.thread-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+        });
+
+        // 关闭帖子详情函数
+        window.closeThread = function(threadId) {
+            let modalId = '';
+            if (threadId === 'qingshancun') modalId = 'threadModalQingshancun';
+            else if (threadId === 'life1') modalId = 'threadModalLife1';
+            else if (threadId === 'game1') modalId = 'threadModalGame1';
+            else if (threadId === 'work1') modalId = 'threadModalWork1';
+            else if (threadId === 'life2') modalId = 'threadModalLife2';
+            else if (threadId === 'qiwen1') modalId = 'threadModalQiwen1';
+            
+            if (modalId) {
+                const modal = document.getElementById(modalId);
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        };
+
+        // 初始化
+        userActions.style.display = 'flex';
+        userInfo.style.display = 'none';
+        forumContent.style.display = 'block';
+        privateContent.style.display = 'none';
+    </script>
+</body>
+</html>

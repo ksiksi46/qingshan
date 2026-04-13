@@ -1,0 +1,1881 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>青山村老面馆 - 正宗山村风味</title>
+<style>
+
+.blur-word {
+    filter: blur(4px);
+    display: inline-block;  /* 确保模糊效果正常显示 */
+    transition: filter 0.2s ease;
+}
+
+.nav a.active {
+  background: #f39c12 !important;
+  color: #fff !important;
+}
+/* 福明日志弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20000;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.paper-modal {
+  width: 90%;
+  max-width: 800px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: #fef7e0;
+  background-image: linear-gradient(#e0d6bf 1px, transparent 1px);
+  background-size: 100% 32px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 0 2px #b59d7a inset;
+  padding: 3rem 3.5rem;
+  border-radius: 4px 20px 20px 4px;
+  font-family: '华文楷体', 'KaiTi', '楷体', serif;
+  border-left: 8px solid #a78e6a;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+.show .paper-modal {
+  transform: scale(1);
+}
+.log-content {
+  font-size: 26px;
+  line-height: 2.0;
+  letter-spacing: 2.5px;
+  color: #2b2b2b;
+  text-align: justify;
+  font-family: '华文楷体', 'KaiTi', '楷体', serif;
+}
+.log-content p {
+  margin: 0.2em 0;
+  text-indent: 2em;
+  line-height: 2.0;
+}
+.log-content p:first-of-type {
+  margin-top: 0.5em;
+}
+.log-content p:last-of-type {
+  margin-bottom: 0.5em;
+}
+.close-paper {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 28px;
+  color: #7f6240;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0 8px;
+  line-height: 1;
+  font-family: 'Courier New', monospace;
+  z-index: 10;
+}
+.close-paper:hover {
+  color: #3d2b14;
+  transform: scale(1.2);
+}
+<link rel="icon" href="images/logo.png" type="images/png">
+/* 真实官网风格 - 朴实、接地气 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "思源宋体", "Source Han Serif", "宋体", "SimSun", "Times New Roman", serif;
+  background: #2c3e50 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232c3e50"/><path d="M0 0 L100 100 M100 0 L0 100" stroke="%233d5166" stroke-width="0.5" opacity="0.1"/><circle cx="50" cy="50" r="10" fill="%233d5166" opacity="0.05"/></svg>');
+  color: #333;
+  line-height: 1.8;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition: all 0.5s;
+  padding: 20px;
+}
+
+/* 诡异状态 - 整个页面扭曲 */
+body.creepy-mode {
+  filter: hue-rotate(10deg) contrast(1.2);
+  background: #0a0a0a url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230a0a0a"/><path d="M0 0 L100 100 M100 0 L0 100" stroke="%238b0000" stroke-width="1" opacity="0.3"/><circle cx="50" cy="50" r="10" fill="%238b0000" opacity="0.1"/></svg>') !important;
+  animation: screenFlicker 0.3s infinite;
+}
+
+body.creepy-mode .container {
+  box-shadow: 0 0 30px #8b0000;
+  border: 1px solid #8b0000;
+}
+
+body.creepy-mode .page, 
+body.creepy-mode .sidebar-box,
+body.creepy-mode .header {
+  background: rgba(0,0,0,0.9) !important;
+  color: #d4af37 !important;
+}
+
+body.creepy-mode p, 
+body.creepy-mode h1, 
+body.creepy-mode h2, 
+body.creepy-mode h3 {
+  color: #d4af37 !important;
+  text-shadow: 0 0 5px #ff0000;
+  animation: textWobble 2s infinite;
+}
+
+@keyframes screenFlicker {
+  0% { opacity: 1; }
+  2% { opacity: 0.8; background: #000; }
+  4% { opacity: 1; }
+  96% { opacity: 1; }
+  98% { opacity: 0.9; background: #300; }
+  100% { opacity: 1; }
+}
+
+@keyframes textWobble {
+  0% { transform: skew(0deg); }
+  2% { transform: skew(2deg); }
+  4% { transform: skew(-1deg); }
+  6% { transform: skew(0deg); }
+  98% { transform: skew(0deg); }
+  99% { transform: skew(3deg); }
+  100% { transform: skew(0deg); }
+}
+
+
+/* 顶部公告栏 */
+.top-bar {
+  background: #ff6b6b;
+  color: white;
+  text-align: center;
+  padding: 8px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* 页面容器 */
+.container {
+  max-width: 1200px;
+  margin: 60px auto 20px;
+  background: white;
+  box-shadow: 0 0 30px rgba(0,0,0,0.2);
+  transition: all 0.5s;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* 头部 */
+.header {
+  background: #fff;
+  padding: 30px 40px;
+  border-bottom: 3px solid #2c3e50;
+  transition: all 0.5s;
+}
+
+.logo h1 {
+  font-size: 36px;
+  color: #2c3e50;
+  margin-bottom: 5px;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+.logo p {
+  color: #666;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+/* 导航栏 */
+.nav {
+  background: #2c3e50;
+  padding: 0;
+  border-bottom: 2px solid #f39c12;
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  width: 100%;
+}
+
+.nav li {
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid #3d5166;
+  flex: 0 0 auto;
+}
+
+.nav li:last-child {
+  border-right: none;
+}
+
+.nav a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 14px 20px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  transition: background 0.3s;
+  white-space: nowrap;
+}
+
+.nav a:hover {
+  background: #f39c12;
+  color: #fff;
+}
+
+/* 轮播图容器 - 铺满 */
+.sidebar-box[style*="width:1175px"] {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+.slideshow-container {
+  position: relative;
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.mySlides {
+  position: relative;
+  width: 100%;
+  height: 450px;
+  overflow: hidden;
+}
+
+.mySlides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mySlides div {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  color: white;
+  background: rgba(0,0,0,0.6);
+  padding: 8px 20px;
+  border-radius: 3px;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+/* 左右切换按钮 */
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 15px 20px;
+  font-size: 20px;
+  transition: background 0.3s;
+  z-index: 10;
+}
+
+.prev:hover, .next:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+/* 小圆点指示器 */
+.slideshow-container > div:last-child {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: transparent;
+}
+
+.dot {
+  cursor: pointer;
+  height: 12px;
+  width: 12px;
+  margin: 0 4px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.dot:hover, .dot.active {
+  background-color: #f39c12;
+}
+
+/* 主要内容区域 */
+.main-content {
+  padding: 30px 20px;
+  overflow: hidden;
+}
+
+/* 侧边栏 */
+.sidebar {
+  float: right;
+  width: 260px;
+  margin-left: 20px;
+}
+
+.sidebar-box {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  transition: all 0.5s;
+}
+
+.sidebar-box h3 {
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+  color: #2c3e50;
+}
+
+.sidebar-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-box li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  letter-spacing: 0.5px;
+  color: #555;
+}
+
+/* 文章区域 */
+.article-area {
+  float: left;
+  width: calc(100% - 280px);
+}
+
+/* 页面内容样式 */
+.page {
+  margin-bottom: 30px;
+}
+
+.page h2 {
+  font-size: 26px;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #f39c12;
+  letter-spacing: 1px;
+}
+
+.page h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 15px 0 10px;
+  letter-spacing: 0.5px;
+}
+
+.page p {
+  font-size: 15px;
+  line-height: 1.8;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  color: #333;
+}
+
+/* 菜单表格 */
+.menu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.menu-table tr {
+  border-bottom: 1px dashed #ddd;
+}
+
+.menu-table td {
+  padding: 12px 5px;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+
+.menu-table td:last-child {
+  text-align: right;
+  color: #e67e22;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* 员工卡片 */
+.staff-grid {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.staff-card {
+  flex: 1;
+  text-align: center;
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.staff-card h4 {
+  font-size: 16px;
+  margin: 8px 0 3px;
+  letter-spacing: 0.5px;
+}
+
+.staff-card p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* 搜索框 */
+.search-box {
+  background: #fff;
+  padding: 25px 15px;
+  border: 1px solid #ddd;
+  margin: 15px 0;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.search-box input {
+  width: 400px;
+  max-width: 70%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  font-size: 15px;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+}
+
+.search-box button {
+  padding: 12px 25px;
+  background: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: inherit;
+  letter-spacing: 0.5px;
+  vertical-align: middle;
+  margin-left: -5px;
+  transition: background 0.3s;
+}
+
+.search-box button:hover {
+  background: #f39c12;
+}
+
+/* 搜索历史记录样式 */
+.search-history {
+  margin-top: 15px;
+  text-align: left;
+  padding: 12px;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 5px;
+}
+
+.search-history h4 {
+  color: #2c3e50;
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.history-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.history-tag {
+  background: #e0e0e0;
+  color: #333;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.history-tag:hover {
+  background: #f39c12;
+  color: white;
+}
+
+.clear-history {
+  color: #999;
+  font-size: 12px;
+  cursor: pointer;
+  float: right;
+  text-decoration: underline;
+}
+
+.clear-history:hover {
+  color: #ff6b6b;
+}
+
+/* 搜索结果 */
+.search-result {
+  background: #f0f7ff;
+  padding: 15px;
+  border-left: 3px solid #2980b9;
+  margin: 15px 0;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+/* 隐藏内容 */
+.hidden-page {
+  display: none;
+  margin: 20px 0;
+  padding: 20px;
+  background: #fff9e6;
+  border: 1px solid #e6cba0;
+  border-radius: 3px;
+}
+
+/* 失踪者档案 - 诡异状态 */
+.hidden-page.creepy-active {
+  display: block !important;
+  position: relative;
+  background: #1a0a0a !important;
+  border: 2px solid #8b0000 !important;
+  animation: pagePulse 2s infinite, pageShake 5s infinite !important;
+  box-shadow: 0 0 50px #ff0000, inset 0 0 30px #8b0000 !important;
+  transform-origin: center;
+}
+
+.hidden-page.creepy-active h2 {
+  color: #ff4500 !important;
+  font-size: 26px !important;
+  text-shadow: 0 0 20px #ff0000, 0 0 40px #ff4500 !important;
+  animation: titleFlicker 0.5s infinite !important;
+  border-bottom: 2px solid #8b0000 !important;
+  padding-bottom: 12px !important;
+  letter-spacing: 3px !important;
+}
+
+.hidden-page.creepy-active p {
+  color: #f0e68c !important;
+  font-size: 17px !important;
+  text-shadow: 2px 2px 4px #000000 !important;
+  margin: 15px 0 !important;
+  padding: 8px !important;
+  background: rgba(0,0,0,0.5) !important;
+  border-left: 3px solid #8b0000 !important;
+  animation: textGlitch 3s infinite !important;
+  position: relative;
+}
+
+.hidden-page.creepy-active p:nth-child(even) {
+  animation-delay: 0.5s !important;
+}
+
+.hidden-page.creepy-active p:nth-child(odd) {
+  animation-delay: 1s !important;
+}
+
+.hidden-page.creepy-active .tip {
+  color: #ff0000 !important;
+  font-weight: bold !important;
+  font-size: 18px !important;
+  text-align: center !important;
+  background: #000 !important;
+  border: 1px solid #8b0000 !important;
+  animation: tipBlink 1s infinite !important;
+  letter-spacing: 2px !important;
+}
+
+/* 诡异效果动画 */
+@keyframes pagePulse {
+  0% { transform: scale(1); opacity: 1; }
+  25% { transform: scale(1.02); opacity: 0.9; }
+  50% { transform: scale(1); opacity: 1; }
+  75% { transform: scale(1.01); opacity: 0.95; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pageShake {
+  0% { transform: translate(0, 0); }
+  1% { transform: translate(-5px, 3px); }
+  2% { transform: translate(5px, -2px); }
+  3% { transform: translate(-3px, 1px); }
+  4% { transform: translate(0, 0); }
+  98% { transform: translate(0, 0); }
+  99% { transform: translate(-4px, 2px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes titleFlicker {
+  0% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
+  10% { opacity: 0.3; text-shadow: 0 0 40px #ff0000; }
+  20% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
+  30% { opacity: 0.5; text-shadow: 0 0 60px #ff4500; }
+  40% { opacity: 1; text-shadow: 0 0 20px #ff0000; }
+  90% { opacity: 1; }
+  95% { opacity: 0.2; text-shadow: 0 0 100px #ff0000; }
+  100% { opacity: 1; }
+}
+
+@keyframes textGlitch {
+  0% { transform: translate(0); }
+  5% { transform: translate(-2px, 1px); }
+  10% { transform: translate(2px, -1px); }
+  15% { transform: translate(0); }
+  20% { transform: translate(-1px, 2px); }
+  25% { transform: translate(0); }
+  90% { transform: translate(0); }
+  95% { transform: translate(3px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes tipBlink {
+  0% { opacity: 1; background: #000; color: #ff0000; }
+  25% { opacity: 0.5; background: #8b0000; color: #fff; }
+  50% { opacity: 1; background: #000; color: #ff0000; }
+  75% { opacity: 0.3; background: #300; color: #fff; }
+  100% { opacity: 1; background: #000; color: #ff0000; }
+}
+
+/* 鬼影效果 */
+.creepy-active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.3) 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  animation: scanlines 0.2s infinite;
+  z-index: 10;
+}
+
+.creepy-active::after {
+  content: "⚠️ WARNING ⚠️";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #ff0000;
+  font-weight: bold;
+  font-size: 18px;
+  text-shadow: 0 0 10px #ff0000;
+  animation: warningFlicker 0.3s infinite;
+  white-space: nowrap;
+  background: black;
+  padding: 4px 15px;
+  border: 2px solid #ff0000;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+@keyframes scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 10px; }
+}
+
+@keyframes warningFlicker {
+  0% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.5; transform: translateX(-50%) scale(1.1); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1); }
+}
+
+/* 随机出现的红字 */
+.creepy-text {
+  position: fixed;
+  color: #8b0000;
+  font-size: 22px;
+  font-weight: bold;
+  text-shadow: 0 0 20px #ff0000;
+  z-index: 9999;
+  pointer-events: none;
+  animation: floatText 4s forwards;
+  white-space: nowrap;
+}
+
+@keyframes floatText {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-200px) rotate(10deg); }
+}
+
+/* 日志项 */
+.log-item {
+  background: white;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #eee;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+/* 通知 */
+.notice {
+  background: #fff3cd;
+  border: 1px solid #ffe69c;
+  color: #856404;
+  padding: 12px 15px;
+  border-radius: 3px;
+  margin: 12px 0;
+  font-size: 14px;
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+/* 页脚 */
+.footer {
+  background: #2c3e50;
+  color: #bdc3c7;
+  padding: 25px 30px;
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  clear: both;
+  transition: all 0.5s;
+  margin-top: 20px;
+}
+
+.footer p {
+  margin-bottom: 8px;
+  line-height: 1.6;
+}
+
+.footer a {
+  color: #bdc3c7;
+  text-decoration: none;
+}
+
+.footer a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+/* 其他原有样式保持不变 */
+.tip { color: #666; font-size: 14px; letter-spacing: 0.5px; }
+.hidden-link { color: #2980b9; cursor: pointer; text-decoration: underline; font-size: 14px; letter-spacing: 0.5px; }
+.links { margin-top: 25px; padding-top: 15px; border-top: 1px solid #eee; font-size: 13px; letter-spacing: 0.5px; }
+.links a { color: #2980b9; text-decoration: none; margin: 0 5px; }
+.links a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- 顶部公告 -->
+<div class="top-bar">
+  ⚠️ 温馨提示：2月18日起本店临时整修，暂停营业，恢复时间另行通知
+</div>
+<div class="container">
+ <div class="header" style="display: flex; align-items: center; justify-content: space-between;">
+  <div class="logo">
+    <h1>青山村老面馆</h1>
+    <p>始于2006年 · 三代传承 · 山村本味</p>
+  </div>
+  <!-- 标题最右侧logo -->
+  <div style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid #f39c12; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+    <img src="images/logo.png" alt="青山村老面馆" style="width: 100%; height: 100%; object-fit: cover;">
+  </div>
+</div>
+  
+  <!-- 导航 -->
+  <div class="nav">
+    <ul>
+      <li><a href="javascript:showPage('home')" id="nav-home" class="active">网站首页</a></li>
+      <li><a href="javascript:showPage('about')" id="nav-about">关于本店</a></li>
+      <li><a href="javascript:showPage('menu')" id="nav-menu">特色菜单</a></li>
+      <li><a href="javascript:showPage('contact')" id="nav-contact">联系我们</a></li>
+      <li><a href="javascript:showPage('guestbook')" id="nav-guestbook">游客留言</a></li>
+      <li><a href="javascript:showPage('search')" id="nav-search">站内搜索</a></li>
+      <li style="margin-left:auto; border-right:none; background:#f39c12;"><a href="wailian/login.html" style="color:#2c3e50; font-weight:bold;">🔐 管理员登录</a></li>
+    </ul>
+  </div>
+  
+  <!-- 轮播图 - 铺满整个宽度 -->
+  <div style="width:100%; margin:0;">
+    <div class="slideshow-container" style="position:relative; max-width:100%; margin:auto; overflow:hidden;">
+      
+      <!-- 轮播图片 -->
+      <div class="mySlides" style="display:block;">
+        <img src="images/1.png" style="width:100%; height:450px; object-fit:cover;">
+        <div>开业大酬宾</div>
+      </div>
+      
+      <div class="mySlides" style="display:none;">
+        <img src="images/2.png" style="width:100%; height:450px; object-fit:cover;">
+        <div>店内环境</div>
+      </div>
+      
+      <div class="mySlides" style="display:none;">
+        <img src="images/3.png" style="width:100%; height:450px; object-fit:cover;">
+        <div>精心制作</div>
+      </div>
+     
+      <!-- 左右切换按钮 -->
+      <button class="prev" onclick="plusSlides(-1)">❮</button>
+      <button class="next" onclick="plusSlides(1)">❯</button>
+      
+      <!-- 小圆点指示器 -->
+      <div>
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+      </div>
+    </div>
+  </div>
+
+<script>
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].style.backgroundColor = "#bbb";
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].style.backgroundColor = "#f39c12";
+}
+
+// 自动轮播
+setInterval(function() {
+  plusSlides(1);
+}, 5000);
+</script>
+  
+  <!-- 主要内容区 -->
+  <div class="main-content">
+    <!-- 侧边栏 -->
+    <div class="sidebar">
+      <div class="sidebar-box">
+        <h3>📞 联系方式</h3>
+        <ul>
+          <li>电话：138-xxxx-7890</li>
+          <li>地址：青山村15号</li>
+          <li>营业：6:00-20:00</li>
+          <li>微信：qsc_noodle</li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-box">
+        <h3>⭐ 顾客好评</h3>
+        <ul>
+          <li>"面条很劲道，汤鲜！" - 王先生</li>
+          <li>"山里的味道，实在！" - 张小姐</li>
+          <li>"每次来必点腊肉拌面" - 李大哥</li>
+        </ul>
+      </div>
+      
+      <div class="sidebar-box">
+        <h3>🔗 友情链接</h3>
+        <ul>
+          <li><a href="wailian/cunweihui.html">青山村村委会</a></li>
+          <li><a href="wailian/travel.html">青山旅游网</a></li>
+          <li><a href="wailian/农家乐.html">本地农家乐</a></li>
+          <li><a href="wailian/公安.html" target="_blank">青山公安</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 文章区域 -->
+    <div class="article-area">
+      <!-- 首页 -->
+      <div class="page" id="homePage" style="display:block;">
+        <h2>欢迎光临青山村老面馆</h2>
+        <p>本店坐落于风景秀丽的青山村村口，是一家传承三代的老字号面馆。我们始终坚持最传统的制面工艺，每天凌晨4点开始手工擀面，用山泉水、本地面粉，做出最地道的山村味道。</p>
+        
+        <h3>🍜 本店特色</h3>
+        <p>招牌山菌汤面：采用村民清晨采摘的野生山菌，慢火熬制4小时，汤鲜味美，回味悠长。</p>
+        <p>腊肉拌面：选用本地土猪，用松枝熏制而成的腊肉，肥而不腻，配上劲道的手工面，是山里人的最爱。</p>
+        <p>野菜馄饨：根据季节更换不同野菜，春季荠菜、夏季马齿苋、秋季野葱，纯天然无污染。</p>
+        
+        <div class="notice">
+          <strong>📌 温馨提示：</strong> 2月17日有游客在后山走失，本店配合警方调查中，近期建议游客不要单独进入后山区域。
+        </div>
+        
+        <p><span class="hidden-link" onclick="showTip()">📝 查看留言板</span></p>
+        <div id="hiddenTip" style="display:none; margin-top:10px; padding:10px; background:#f0f0f0; font-size:14px; letter-spacing:0.5px;">
+          * 留言板需要验证，请输入关键词查看*
+        </div>
+      </div>
+      
+      <!-- 关于我们 -->
+      <div class="page" id="aboutPage" style="display:none;">
+        <h2>关于青山村老面馆</h2>
+        <p>青山村老面馆由李青山先生于2006年创办。李青山年轻时在县城学艺，后回到家乡开了这家面馆，一开就是20年。</p>
+        <p>2018年，李青山先生将面馆传给儿子李福明经营。李福明在传承父亲手艺的基础上，不断改进，增加了更多山野风味菜品，深受顾客喜爱。</p>
+
+        <div class="staff-grid">
+          <div class="staff-card">
+            <img src="images/staff-li.jpg" alt="李福明老板" width="120" height="140">
+            <h4>李福明</h4>
+            <p>老板 · 第二代传人</p>
+          </div>
+          <div class="staff-card">
+            <img src="images/staff-wang.jpg" alt="王芳服务员" width="120" height="140">
+            <h4>王芳</h4>
+            <p>服务员 · 12年工龄</p>
+          </div>
+          <div class="staff-card">
+            <img src="images/staff-zhang.jpg" alt="张强厨师" width="120" height="140">
+            <h4>张强</h4>
+            <p>厨师 · 擅长山野菜</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 菜单页面 -->
+      <div class="page" id="menuPage" style="display:none;">
+        <h2>特色菜单</h2>
+        
+        <!-- 推荐菜品图片展示 -->
+        <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+          <div style="text-align: center; width: 23%;">
+            <img src="images/noodle1-dish.jpg" alt="招牌山菌汤面" width="100%" style="border-radius: 5px;">
+            <p style="margin-top: 5px;"><strong>招牌山菌汤面</strong> 18元</p>
+          </div>
+          <div style="text-align: center; width: 23%;">
+            <img src="images/noodle2-dish.jpg" alt="腊肉拌面" width="100%" style="border-radius: 5px;">
+            <p style="margin-top: 5px;"><strong>腊肉拌面</strong> 15元</p>
+          </div>
+          <div style="text-align: center; width: 23%;">
+            <img src="images/wantun.jpg" alt="野菜馄饨" width="100%" style="border-radius: 5px;">
+            <p style="margin-top: 5px;"><strong>野菜馄饨</strong> 15元</p>
+          </div>
+          <div style="text-align: center; width: 23%;">
+            <img src="images/soup.jpg" alt="土鸡汤" width="100%" style="border-radius: 5px;">
+            <p style="margin-top: 5px;"><strong>土鸡汤</strong> 48元</p>
+          </div>
+        </div>
+        
+        <table class="menu-table">
+          <!-- 菜单内容 -->
+        </table>
+      </div>
+     
+      <!-- 联系我们 -->
+      <div class="page" id="contactPage" style="display:none;">
+        <h2>联系我们</h2>
+        <p>📞 电话：138-xxxx-7890 (李老板)</p>
+        <p>📧 邮箱：qsc_noodle@local.com</p>
+        <p>🏠 地址：青山县青山镇青山村15号</p>
+        <p>⏰ 营业时间：每日6:00-20:00 (雨天休业)</p>
+      </div>
+      
+      <!-- 游客留言 -->
+      <div class="page" id="guestbookPage" style="display:none;">
+        <h2>📋 游客留言板 <span style="font-size:14px; color:#999; font-weight:normal;">(共12条留言)</span></h2>
+        
+        <div style="margin:15px 0 8px; color:#2c3e50; font-weight:bold; border-bottom:1px dashed #ccc; padding-bottom:3px;">📅 2026年</div>
+        
+        <div class="log-item">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span style="font-weight:bold; color:#2980b9;">过路人</span>
+            <span style="color:#999; font-size:12px;">2026-02-19</span>
+          </div>
+          <p>听说最近有游客失踪了？真的假的？</p>
+          <div style="margin-top:8px; padding:8px 12px; background:#f9f9f9; border-left:3px solid #f39c12;">
+            <strong>李老板回复：</strong>配合警方调查中，不便多说。
+          </div>
+        </div>
+        
+        <div class="log-item">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span style="font-weight:bold; color:#2980b9;">村民老张</span>
+            <span style="color:#999; font-size:12px;">2026-02-18</span>
+          </div>
+          <p>后山别去，有忌讳，听老人话</p>
+          <div style="margin-top:8px; padding:8px 12px; background:#f9f9f9; border-left:3px solid #f39c12;">
+            <strong>李老板回复：</strong>老张说得对，后山真不能去。
+          </div>
+        </div>
+        
+        <div class="log-item" style="border-left:3px solid #c00; background:#fff8f8;">
+          <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+            <span style="font-weight:bold; color:#c00;">陈宇</span>
+            <span style="color:#999; font-size:12px;">2026-02-17</span>
+          </div>
+          <p style="color:#c00;">香椿炒鸡蛋真好吃，老板说红绳的事能详细说说吗？</p>
+          <div style="margin-top:8px; padding:8px 12px; background:#ffe6e6; border-left:3px solid #c00;">
+            <strong>李老板回复：</strong>（此条回复异常）
+          </div>
+        </div>
+      </div>
+      
+      <!-- 搜索页面 -->
+      <div class="page" id="searchPage" style="display:none;">
+        <h2>站内搜索</h2>
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="请输入关键词（如：香椿、王建国、李青山）">
+          <button onclick="startSearch()">搜索</button>
+        </div>
+        
+        <!-- 搜索历史记录 -->
+        <div id="searchHistory" class="search-history" style="display: none;">
+          <h4>最近搜索 <span class="clear-history" onclick="clearSearchHistory()">清空历史</span></h4>
+          <div id="historyTags" class="history-tags"></div>
+        </div>
+        
+        <!-- 检索中页面 -->
+        <div id="searchLoading" style="display:none; text-align:center; padding:25px; background:white; border:1px solid #ddd; border-radius:5px; margin:15px 0;">
+          <div style="margin-bottom:10px;"><span style="font-size:36px;">🔍</span></div>
+          <div>正在检索中，请稍候...</div>
+          <div style="font-size:13px; color:#999; margin-top:8px;" id="loadingStatus">正在匹配关键词...</div>
+          <div style="width:100%; height:3px; background:#eee; margin-top:15px; border-radius:2px; overflow:hidden;">
+            <div id="loadingBar" style="width:0%; height:100%; background:#f39c12; transition:width 0.3s;"></div>
+          </div>
+        </div>
+        
+        <!-- 搜索结果区域 -->
+        <div id="searchResult" style="display:none;">
+          <div style="background:#f0f7ff; padding:12px; border-left:3px solid #2980b9; margin:12px 0; font-size:14px;" id="resultSummary"></div>
+          <div id="resultLinks" style="margin-top:15px;"></div>
+        </div>
+        
+        <!-- 无结果区域 -->
+        <div id="noResult" style="display:none; text-align:center; padding:30px; background:white; border:1px solid #ddd; border-radius:5px; margin:15px 0;">
+          <div style="font-size:48px; color:#ccc; margin-bottom:15px;">😕</div>
+          <div style="font-size:16px; color:#666;">未找到相关内容</div>
+          <div style="font-size:13px; color:#999; margin-top:8px;">请尝试其他关键词</div>
+        </div>
+        
+        <!-- 阴间结果区域 -->
+        <div id="creepyResult" style="display:none; text-align:center; padding:25px; background:#0a0a0a; border:2px solid #8b0000; border-radius:5px; margin:15px 0;">
+          <div style="font-size:36px; color:#8b0000; margin-bottom:15px;">⚠️</div>
+          <div style="font-size:22px; color:#8b0000; margin-bottom:10px;">FILE CORRUPTED</div>
+          <div style="font-size:14px; color:#a52a2a; margin-bottom:15px;">ERROR: 0x80070570</div>
+          <div style="width:100%; height:1px; background:#8b0000; margin:15px 0; opacity:0.3;"></div>
+          <div style="font-size:13px; color:#8b0000;" id="creepyFileName"></div>
+        </div>
+        
+        <!-- 隐藏内容 -->
+        <div class="hidden-page" id="logPage" style="display:none;">
+          <h2>管理员日志</h2>
+          <div class="log-item">2026.2.15 陈宇，大学生，打听后山红绳</div>
+          <div class="log-item">2026.2.17 陈宇失联，最后出现在后山</div>
+          <div class="log-item">2026.2.18 店先关了，后山的事...不能提</div>
+        </div>
+        
+        <div class="hidden-page" id="missingPage" style="display:none;">
+          <h2>【内部档案】失踪者: 陈宇</h2>
+          <p>姓名：陈宇</p>
+          <p>年龄：22岁</p>
+          <p>特征：戴眼镜，背红色登山包，携带红绳</p>
+          <p>最后点餐：香椿炒鸡蛋</p>
+          <p>最后留言："红绳引路"</p>
+          <p class="tip">⚠️ 后山有老规矩，外人带红绳进去... 别找 ⚠️</p>
+        </div>
+      </div>
+      
+      
+    </div>
+  </div>
+</div>
+
+<!-- 页脚 -->
+<div class="footer">
+  <p>青山村老面馆 版权所有 © 2006-2026</p>
+  <p>地址：青山县青山镇青山村15号 电话：138-xxxx-7890</p>
+  <p>备案号：ICP备12345678号</p>
+</div>
+
+<!-- 诡异音效 -->
+<audio id="creepySound" loop preload="auto" style="display:none;">
+  <source src="https://assets.mixkit.co/sfx/preview/mixkit-horror-ambience-1345.mp3" type="audio/mpeg">
+  <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+if (!localStorage.getItem('qingshan_initial_clean_done')) {
+    localStorage.removeItem('liqingshan_ritual_completed');
+    localStorage.removeItem('liqingshan_6clicks_completed');
+    localStorage.removeItem('liqingshan_6clicks');
+    localStorage.removeItem('liqingshan_completion_time');
+    localStorage.removeItem('liqingshan_6clicks_timestamp');
+    localStorage.setItem('qingshan_initial_clean_done', 'true');
+    console.log('已执行一次性初始化清除，后续不会再自动清除');
+}
+
+// 全局变量
+var glitchInterval = null;
+var textInterval = null;
+var creepyActive = false;
+
+// 显示不同页面
+function showPage(pageName) {
+    // 停止所有诡异效果
+    if(glitchInterval) {
+        clearInterval(glitchInterval);
+        glitchInterval = null;
+    }
+    if(textInterval) {
+        clearInterval(textInterval);
+        textInterval = null;
+    }
+    
+    // 隐藏所有普通页面
+    var pages = ['home', 'about', 'menu', 'contact', 'guestbook', 'search'];
+    for(var i = 0; i < pages.length; i++) {
+        var pageEl = document.getElementById(pages[i] + 'Page');
+        if(pageEl) pageEl.style.display = 'none';
+    }
+    
+    // 显示选中页面
+    var targetPage = document.getElementById(pageName + 'Page');
+    if(targetPage) targetPage.style.display = 'block';
+    
+    // 隐藏隐藏页面
+    var logPage = document.getElementById('logPage');
+    var missingPage = document.getElementById('missingPage');
+    if(logPage) logPage.style.display = 'none';
+    if(missingPage) {
+        missingPage.style.display = 'none';
+        missingPage.classList.remove('creepy-active');
+    }
+    
+    // 移除所有漂浮文字
+    var floatingTexts = document.querySelectorAll('.creepy-text');
+    for(var i = 0; i < floatingTexts.length; i++) {
+        floatingTexts[i].remove();
+    }
+    
+    // 导航激活状态
+    var navLinks = ['home', 'about', 'menu', 'contact', 'guestbook', 'search'];
+    for(var i = 0; i < navLinks.length; i++) {
+        var navItem = document.getElementById('nav-' + navLinks[i]);
+        if(navItem) navItem.classList.remove('active');
+    }
+    
+    var currentNav = document.getElementById('nav-' + pageName);
+    if(currentNav) currentNav.classList.add('active');
+    
+    creepyActive = false;
+}
+
+// 显示隐藏提示
+function showTip() {
+    document.getElementById('hiddenTip').style.display = 'block';
+}
+
+// 搜索历史功能
+function getSearchHistory() {
+    try {
+        var history = localStorage.getItem('search_history');
+        return history ? JSON.parse(history) : [];
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveSearchHistory(keyword) {
+    if (!keyword || keyword.trim() === '') return;
+    
+    try {
+        var history = getSearchHistory();
+        var index = history.indexOf(keyword);
+        if (index !== -1) {
+            history.splice(index, 1);
+        }
+        history.unshift(keyword);
+        if (history.length > 10) {
+            history = history.slice(0, 10);
+        }
+        localStorage.setItem('search_history', JSON.stringify(history));
+        displaySearchHistory();
+    } catch (e) {}
+}
+
+function clearSearchHistory() {
+    try {
+        localStorage.removeItem('search_history');
+        displaySearchHistory();
+    } catch (e) {}
+}
+
+function displaySearchHistory() {
+    var historyContainer = document.getElementById('searchHistory');
+    var historyTags = document.getElementById('historyTags');
+    
+    if (!historyContainer || !historyTags) return;
+    
+    var history = getSearchHistory();
+    
+    if (history.length > 0) {
+        historyContainer.style.display = 'block';
+        var html = '';
+        for (var i = 0; i < history.length; i++) {
+            html += '<span class="history-tag" onclick="searchFromHistory(\'' + history[i] + '\')">' + history[i] + '</span>';
+        }
+        historyTags.innerHTML = html;
+    } else {
+        historyContainer.style.display = 'none';
+    }
+}
+
+function searchFromHistory(keyword) {
+    document.getElementById('searchInput').value = keyword;
+    startSearch();
+}
+
+// 搜索功能
+function startSearch() {
+    var keyword = document.getElementById('searchInput').value.trim();
+    
+    if (keyword) {
+        saveSearchHistory(keyword);
+    }
+    
+    document.getElementById('searchLoading').style.display = 'block';
+    document.getElementById('searchResult').style.display = 'none';
+    document.getElementById('noResult').style.display = 'none';
+    document.getElementById('creepyResult').style.display = 'none';
+    
+    var loadingBar = document.getElementById('loadingBar');
+    var loadingStatus = document.getElementById('loadingStatus');
+    loadingBar.style.width = '0%';
+    
+    var steps = [
+        { width: 30, text: '正在连接数据库...' },
+        { width: 50, text: '正在检索关键词...' },
+        { width: 70, text: '正在匹配相关结果...' },
+        { width: 90, text: '正在生成结果页面...' }
+    ];
+    
+    var stepIndex = 0;
+    
+    var interval = setInterval(function() {
+        if (stepIndex < steps.length) {
+            loadingBar.style.width = steps[stepIndex].width + '%';
+            loadingStatus.innerHTML = steps[stepIndex].text;
+            stepIndex++;
+        } else {
+            clearInterval(interval);
+            
+            setTimeout(function() {
+                document.getElementById('searchLoading').style.display = 'none';
+                
+                if (keyword == '陈宇' || keyword == '王建国') {
+                    document.getElementById('creepyResult').style.display = 'block';
+                    document.getElementById('creepyFileName').innerHTML = keyword + '_' + (keyword == '陈宇' ? '20260217' : '20060315') + '.dat';
+                    
+                    document.body.style.filter = 'grayscale(50%) sepia(40%) hue-rotate(-10deg) brightness(1.2)';
+                    document.body.style.transition = 'filter 3s';
+                    
+                    var creepyDiv = document.getElementById('creepyResult');
+                    creepyDiv.style.background = '#000000';
+                    creepyDiv.style.border = '3px solid #ff0000';
+                    creepyDiv.style.boxShadow = '0 0 30px #ff0000';
+                    
+                } else if (keyword == '香椿炒鸡蛋' || keyword == '香椿') {
+                    document.getElementById('searchResult').style.display = 'block';
+                    document.getElementById('resultSummary').innerHTML = '找到 1 条相关结果';
+                    
+                    var linksHtml = '<div style="background:white; padding:12px; border:1px solid #ddd; border-radius:5px; margin-bottom:10px;">' +
+                        '<div style="color:#2c3e50; font-weight:bold; margin-bottom:5px;">📄 搜索结果</div>' +
+                        '<div style="margin-bottom:5px;"><a href="find/香椿.html" target="_blank" style="color:#2980b9; text-decoration:none;">香椿炒鸡蛋</a></div>' +
+                        '<div style="color:#666; font-size:12px;">青山村特色菜 · 最后更新：2006-06-06</div>' +
+                        '</div>';
+                    
+                    document.getElementById('resultLinks').innerHTML = linksHtml;
+                    
+                } else if (keyword == '李青山') {
+                    document.getElementById('searchResult').style.display = 'block';
+                    document.getElementById('resultSummary').innerHTML = '找到 1 条相关结果';
+                    
+                    var linksHtml = '<div style="background:white; padding:12px; border:1px solid #ddd; border-radius:5px; margin-bottom:10px;">' +
+                        '<div style="color:#2c3e50; font-weight:bold; margin-bottom:5px;">👤 人物生平</div>' +
+                        '<div style="margin-bottom:5px;"><a href="find/李青山.html" target="_blank" style="color:#2980b9; text-decoration:none;">李青山</a></div>' +
+                        '<div style="color:#666; font-size:12px;">青山村老面馆创始人 · 2006-2018</div>' +
+                        '</div>';
+                    
+                    document.getElementById('resultLinks').innerHTML = linksHtml;
+                    
+                } else if (keyword == '李福明') {
+                    document.getElementById('searchResult').style.display = 'block';
+                    document.getElementById('resultSummary').innerHTML = '找到 1 条相关结果';
+                    
+                    var linksHtml = '<div style="background:white; padding:12px; border:1px solid #ddd; border-radius:5px; margin-bottom:10px;">' +
+                        '<div style="color:#2c3e50; font-weight:bold; margin-bottom:5px;">🍜 搜索结果</div>' +
+                        '<div style="margin-bottom:5px;"><a href="find/李福明.html" target="_blank" style="color:#2980b9; text-decoration:none;">青山一碗面，温暖万人心</a></div>' +
+                        '<div style="color:#666; font-size:12px;">李福明 · 店主寄语</div>' +
+                        '</div>';
+                    
+                    document.getElementById('resultLinks').innerHTML = linksHtml;
+
+} else if (keyword == '窅') {
+    // 隐藏所有正常搜索结果
+    document.getElementById('searchLoading').style.display = 'none';
+    document.getElementById('searchResult').style.display = 'none';
+    document.getElementById('noResult').style.display = 'none';
+    document.getElementById('creepyResult').style.display = 'none';
+    
+    // 获取所有文字元素
+    var elements = document.querySelectorAll('p, h1, h2, h3, h4, span, a, li, .log-item, .notice, .sidebar-box, .footer, .top-bar, .nav a');
+    var originals = [];
+    var items = [];
+    var idx = 0;
+    
+    elements.forEach(function(el) {
+        if (el.children.length === 0 && el.innerText && el.innerText.trim().length > 0) {
+            originals[idx] = el.innerText;
+            items[idx] = el;
+            idx++;
+        }
+    });
+    
+    var total = items.length;
+    var level = 0;
+    
+    // 侵蚀过程
+    var timer = setInterval(function() {
+        level += 0.5;
+        
+        if (level >= 100) {
+            clearInterval(timer);
+            
+            // 全部替换
+            for (var i = 0; i < items.length; i++) {
+                if (items[i] && originals[i]) {
+                    var t = originals[i];
+                    items[i].innerText = '窅'.repeat(t.length);
+                }
+            }
+            
+            document.body.style.backgroundColor = '#0a0a0a';
+            
+            // 浮现“你是谁”
+            setTimeout(function() {
+                var div = document.createElement('div');
+                div.style.position = 'fixed';
+                div.style.top = '50%';
+                div.style.left = '50%';
+                div.style.transform = 'translate(-50%, -50%) rotate(1deg)';
+                div.style.color = '#440000';
+                div.style.fontSize = '72px';
+                div.style.fontFamily = '楷体';
+                div.style.letterSpacing = '15px';
+                div.style.textShadow = '2px 2px 5px #000';
+                div.style.zIndex = '20002';
+                div.style.opacity = '0';
+                div.style.transition = 'opacity 4s';
+                div.style.filter = 'blur(3px)';
+                div.style.textAlign = 'center';
+                div.style.lineHeight = '1.5';
+                div.innerHTML = '你<br>是<br>谁';
+                document.body.appendChild(div);
+                
+                setTimeout(function() { div.style.opacity = '0.6'; }, 100);
+                setTimeout(function() { div.style.opacity = '0'; }, 5000);
+                setTimeout(function() { if(div.parentNode) div.parentNode.removeChild(div); }, 9000);
+                
+                // 恢复
+                setTimeout(function() {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i] && originals[i]) {
+                            items[i].innerText = originals[i];
+                        }
+                    }
+                    document.body.style.backgroundColor = '';
+                }, 8000);
+                
+            }, 2000);
+            
+        } else {
+            // 逐步替换
+            var count = Math.floor(total * (level / 100) * 0.7);
+            for (var i = 0; i < count; i++) {
+                var r = Math.floor(Math.random() * items.length);
+                var el = items[r];
+                if (el && originals[r]) {
+                    var txt = originals[r];
+                    var arr = txt.split('');
+                    var replaceNum = Math.floor(arr.length * (level / 100) * 0.5);
+                    for (var j = 0; j < replaceNum; j++) {
+                        var p = Math.floor(Math.random() * arr.length);
+                        arr[p] = '窅';
+                    }
+                    el.innerText = arr.join('');
+                }
+            }
+        }
+    }, 1000);
+    
+    // 20秒后强制结束
+    setTimeout(function() {
+        clearInterval(timer);
+        for (var i = 0; i < items.length; i++) {
+            if (items[i] && originals[i]) {
+                items[i].innerText = originals[i];
+            }
+        }
+        document.body.style.backgroundColor = '';
+    }, 20000);
+                    
+                 } else if (keyword == '青山寺') {
+                    document.getElementById('searchResult').style.display = 'block';
+                    document.getElementById('resultSummary').innerHTML = '找到 2 条相关结果';
+                    
+                    var linksHtml = 
+                        '<div style="background:#f9f9f9; padding:12px; border:1px solid #aaa; border-radius:5px; margin-bottom:10px; border-left:4px solid #666;">' +
+                        '<div style="color:#3c3c3c; font-weight:bold; margin-bottom:8px;">🏯 搜索结果</div>' +
+                        '<div style="margin-bottom:5px;">' +
+                        '<a href="javascript:void(0);" onclick="openQingshanTemple();" style="color:#5a3e2b; text-decoration:underline; cursor:pointer;">青山寺</a>' +
+                        '</div>' +
+                        '<div style="color:#7f5a3a; font-size:13px; font-style:italic;">“青山古寺，”</div>' +
+                        '</div>' +
+                        
+                        '<div style="background:#f0f0f0; padding:12px; border:1px solid #ccc; border-radius:5px; margin-bottom:10px; border-left:4px solid #8b6b4d;">' +
+                        '<div style="color:#5a3e2b; font-weight:bold; margin-bottom:8px;">📜 搜索结果</div>' +
+                        '<div style="margin-bottom:5px;">' +
+                        '<a href="javascript:void(0);" onclick="showFumingPaper();" style="color:#5a3e2b; text-decoration:underline; cursor:pointer;">福明日志</a>' +
+                        '</div>' +
+                        '</div>';
+                    
+                    document.getElementById('resultLinks').innerHTML = linksHtml;
+                    
+                } else {
+                    document.getElementById('noResult').style.display = 'block';
+                }
+            }, 800);
+        }
+    }, 600);
+}
+
+function showFumingPaper() {
+    var overlay = document.getElementById('paperOverlay');
+    if (!overlay) {
+        createPaperModal();
+        overlay = document.getElementById('paperOverlay');
+    }
+    if (overlay) {
+        overlay.classList.add('show');
+        overlay.onclick = function(e) {
+            if (e.target === overlay) {
+                closePaperModal();
+            }
+        };
+    }
+}
+
+function closePaperModal() {
+    var overlay = document.getElementById('paperOverlay');
+    if (overlay) {
+        overlay.classList.remove('show');
+    }
+}
+
+function createPaperModal() {
+    var modalHTML = 
+        '<div id="paperOverlay" class="modal-overlay">' +
+        '  <div class="paper-modal">' +
+        '    <button class="close-paper" onclick="closePaperModal()">✕</button>' +
+        '    <div class="log-content">' +
+        '      <p>爹过世之后，窅大人的性子愈发挑剔起来，送来的东西一概不食，就连老马费尽心思寻来的小子小妮，窅大人连看都不看一眼。此事险些败露，亏得公安那边都是咱们自己人，才硬生生把事情压了下去。唯独那姓于的，是个捉摸不定的变数，日后必得寻个法子除去才是。</p>' +
+        '      <p>好在窅大人这两日终于有了动静，似是有了心仪之选。我前往青山寺与大人沟通后才知晓，此番选中的物件，与十六年前那回的祭品，生辰八字、机缘命格全然相合，乃是一等一的大补之物。若是得了这件，窅大人便可顺利登仙。</p>' +
+        '      <p>明日定要好好设一场法事，将祭品迎入此地，结为果；再由窅大人慢慢种下因，把这一切布成无法更改的定局。为保事情周全，不叫祭品察觉从前的旧事，我早已提前将爹的密码，暗藏在青山寺的界面之中。只待窅大人顺利登仙，便也算不负我们这一番苦心筹谋了。</p>' +
+        '    </div>' +
+        '  </div>' +
+        '</div>';
+    
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closePaperModal();
+    }
+});
+
+function openQingshanTemple() {
+    try {
+    // 只记录首次进入，但不清除任何状态
+    if (!localStorage.getItem('qingshan_temple_first_run')) {
+        localStorage.setItem('qingshan_temple_first_run', 'true');
+        console.log('首次进入青山寺');
+    }
+} catch (e) {
+    console.error('状态处理失败:', e);
+}
+    
+    var modal = document.createElement('div');
+    modal.id = 'templeModal';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0)';
+    modal.style.zIndex = '10000';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.flexDirection = 'column';
+    modal.style.transition = 'background-color 5s ease';
+    modal.style.pointerEvents = 'none';
+    
+    document.body.appendChild(modal);
+    
+    setTimeout(function() { modal.style.backgroundColor = 'rgba(0,0,0,0.3)'; }, 500);
+    setTimeout(function() { modal.style.backgroundColor = 'rgba(0,0,0,0.6)'; }, 2000);
+    setTimeout(function() { modal.style.backgroundColor = 'rgba(0,0,0,0.9)'; }, 4000);
+    
+    setTimeout(function() {
+        document.body.removeChild(modal);
+        
+        var templeContainer = document.createElement('div');
+        templeContainer.id = 'templeContainer';
+        templeContainer.style.position = 'fixed';
+        templeContainer.style.top = '0';
+        templeContainer.style.left = '0';
+        templeContainer.style.width = '100%';
+        templeContainer.style.height = '100%';
+        templeContainer.style.backgroundColor = '#000';
+        templeContainer.style.zIndex = '9999';
+        templeContainer.style.overflowY = 'auto';
+        templeContainer.style.padding = '40px 20px';
+        templeContainer.style.boxSizing = 'border-box';
+        templeContainer.style.display = 'flex';
+        templeContainer.style.flexDirection = 'column';
+        templeContainer.style.alignItems = 'center';
+        
+        var templeImg = document.createElement('img');
+        templeImg.src = 'images/木版拓印寺庙.png';
+        templeImg.style.maxWidth = '1000px';
+        templeImg.style.width = '100%';
+        templeImg.style.height = 'auto';
+        templeImg.style.border = 'none';
+        templeImg.style.boxShadow = '0 0 40px rgba(255,255,255,0.15)';
+        templeImg.style.marginBottom = '30px';
+        templeImg.style.filter = 'grayscale(100%) contrast(1.1)';
+        templeImg.style.opacity = '0';
+        templeImg.style.transition = 'opacity 3s';
+        
+        templeImg.onload = function() { this.style.opacity = '1'; };
+        
+        templeImg.onerror = function() { 
+            this.style.display = 'none';
+            var placeholderDiv = document.createElement('div');
+            placeholderDiv.style.width = '100%';
+            placeholderDiv.style.maxWidth = '800px';
+            placeholderDiv.style.height = '400px';
+            placeholderDiv.style.backgroundColor = '#111';
+            placeholderDiv.style.border = '1px solid #333';
+            placeholderDiv.style.display = 'flex';
+            placeholderDiv.style.alignItems = 'center';
+            placeholderDiv.style.justifyContent = 'center';
+            placeholderDiv.style.marginBottom = '30px';
+            placeholderDiv.style.color = '#444';
+            placeholderDiv.style.fontFamily = '楷体';
+            placeholderDiv.style.fontSize = '28px';
+            placeholderDiv.style.letterSpacing = '8px';
+            placeholderDiv.innerText = '青 山 寺';
+            templeContainer.insertBefore(placeholderDiv, templeContainer.firstChild);
+        };
+        
+        templeContainer.appendChild(templeImg);
+        
+        var enterBtn = document.createElement('div');
+        enterBtn.style.marginTop = '20px';
+        enterBtn.style.marginBottom = '60px';
+        enterBtn.style.padding = '16px 60px';
+        enterBtn.style.border = '1px solid #444';
+        enterBtn.style.backgroundColor = 'transparent';
+        enterBtn.style.color = '#777';
+        enterBtn.style.fontSize = '20px';
+        enterBtn.style.fontFamily = 'monospace';
+        enterBtn.style.letterSpacing = '6px';
+        enterBtn.style.cursor = 'pointer';
+        enterBtn.style.transition = 'all 0.5s';
+        enterBtn.style.textAlign = 'center';
+        enterBtn.style.width = 'fit-content';
+        enterBtn.innerText ='【 进 入 】';
+        
+        enterBtn.onmouseover = function() {
+            this.style.borderColor = '#888';
+            this.style.color = '#ccc';
+            this.style.backgroundColor = '#111';
+            this.style.boxShadow = '0 0 20px rgba(255,255,255,0.1)';
+        };
+        enterBtn.onmouseout = function() {
+            this.style.borderColor = '#444';
+            this.style.color = '#777';
+            this.style.backgroundColor = 'transparent';
+            this.style.boxShadow = 'none';
+        };
+        
+        templeContainer.appendChild(enterBtn);
+        
+        enterBtn.onclick = function() {
+            enterBtn.style.display = 'none';
+            
+            var textContainer = document.createElement('div');
+            textContainer.style.maxWidth = '900px';
+            textContainer.style.width = '100%';
+            textContainer.style.margin = '0 auto';
+            textContainer.style.padding = '30px 20px';
+            textContainer.style.color = '#fff';
+            textContainer.style.fontFamily = '楷体, "KaiTi", "华文楷体", "宋体", serif';
+            textContainer.style.fontSize = '24px';
+            textContainer.style.lineHeight = '2.2';
+            textContainer.style.letterSpacing = '3px';
+            textContainer.style.textAlign = 'justify';
+            textContainer.style.whiteSpace = 'pre-wrap';
+            textContainer.style.wordBreak = 'break-word';
+            textContainer.style.opacity = '0';
+            textContainer.style.transition = 'opacity 3s ease';
+            
+            textContainer.innerHTML = '青山村后山三里，有寺无名，村人呼为青山寺。\n\n寺始建于何时，无碑可考。县志不载其由，村谱不录其始。檐角残瓦，苔痕深碧；门扉半朽，推之则鸣。老人言：明时已有此寺，明之前，亦有人见之。\n\n正殿无佛无道，中设一龛，龛中供石，石上有字：窅\n\n字非刻非铸，若从石中自生。凹处幽深，烛火照之不底，目光入之不返。\n\n村人不知其何神，但呼为“窅爷”。\n\n初时村人淳朴，入寺惟求风调雨顺、老幼平安。每岁春分秋分，携新谷一升、山果五枚、清泉一盏，供于石前。供毕退行三步，不语不揖，默然而归。\n\n后渐有人求更多。求田产，求银钱，求儿媳生男，求对头倒霉。所求者皆应，应者皆验。于是入寺者日众，供品日丰，从一升新谷，到一斗新谷，到一桌酒肉，到整猪整羊。\n\n窅爷不受响头，但受这些。\n\n又后数年，供品虽丰，灵验却渐稀。有人求田，田不来；求财，财不至；求对头倒霉，对头反倒升了里正。入寺者窃窃相问：“窅爷是不是不灵了？”老人呵斥：“莫妄言，是你心不诚。”于是供品更丰。一羊不够，三羊；三羊不够，整猪；整猪不够，杀牛。牛是耕牛，杀牛犯禁，但夜半无人知。\n\n灵验仍是不来。\n\n村人焦虑，夜不能寐。有人连夜入寺跪求，跪至天明，石上无应；有人倾家财置供，供至月尽，所求不遂。渐渐地，入寺者少了，不是不想求，是不知怎么求。\n\n那年夏末，大旱月余，田土龟裂。村老率众入寺，供三牲，焚纸钱，跪求三日三夜。第三日傍晚，天边起云，夜半大雨倾盆。村人以为窅爷终于应了，相拥而泣。\n\n次日雨霁，有人入寺谢神。进殿便惊住——龛前石上，那“窅”字之旁，凭空多了两个字，深深浅浅，似刻似生：<span class="blur-word">奉人</span>\n\n村人大骇，召村老来看。村老看了半晌，面色如土，一言不发，转身便走。有人拉住问：“这是什么意思？”村老挣开他的手，头也不回：“问窅爷去。”';
+            
+            templeContainer.appendChild(textContainer);
+            
+            setTimeout(function() { textContainer.style.opacity = '1'; }, 200);
+            
+            var linkContainer = document.createElement('div');
+            linkContainer.id = 'yaomingLinkContainer';
+            linkContainer.style.maxWidth = '900px';
+            linkContainer.style.width = '100%';
+            linkContainer.style.margin = '30px auto 40px';
+            linkContainer.style.textAlign = 'center';
+            linkContainer.style.opacity = '0';
+            linkContainer.style.transition = 'opacity 1s ease';
+            templeContainer.appendChild(linkContainer);
+
+ var yaomingLink = document.createElement('a');
+            yaomingLink.href = '李青山.html';
+            yaomingLink.target = '_blank';
+            yaomingLink.style.display = 'inline-block';
+            yaomingLink.style.padding = '20px 60px';
+            yaomingLink.style.color = '#b22222';
+            yaomingLink.style.fontSize = '36px';
+            yaomingLink.style.fontFamily = '"华文楷体", "KaiTi", "楷体", "隶书", serif';
+            yaomingLink.style.fontWeight = 'bold';
+            yaomingLink.style.letterSpacing = '12px';
+            yaomingLink.style.textAlign = 'center';
+            yaomingLink.style.textDecoration = 'none';
+            yaomingLink.style.border = '3px solid #8b0000';
+            yaomingLink.style.backgroundColor = 'rgba(0,0,0,0.7)';
+            yaomingLink.style.boxShadow = '0 0 40px #8b0000';
+            yaomingLink.style.transition = 'all 0.5s';
+            yaomingLink.style.opacity = '0';
+            yaomingLink.style.pointerEvents = 'none';
+            yaomingLink.innerText = '窅冥深處 無求自應';
+            
+            yaomingLink.onmouseover = function() {
+                this.style.backgroundColor = '#8b0000';
+                this.style.color = '#000';
+                this.style.boxShadow = '0 0 60px #ff0000';
+            };
+            yaomingLink.onmouseout = function() {
+                this.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                this.style.color = '#b22222';
+                this.style.boxShadow = '0 0 40px #8b0000';
+            };
+            
+            linkContainer.appendChild(yaomingLink);
+            
+          function showYaomingLink() {
+    console.log('显示链接');
+    
+    var yaomingLink = document.querySelector('#yaomingLinkContainer a');
+    var linkContainer = document.getElementById('yaomingLinkContainer');
+    
+    if (yaomingLink && linkContainer) {
+        linkContainer.style.opacity = '1';
+        yaomingLink.style.opacity = '1';
+        yaomingLink.style.pointerEvents = 'auto';
+        
+        var style = document.getElementById('linkGlowStyle');
+        if (!style) {
+            style = document.createElement('style');
+            style.id = 'linkGlowStyle';
+            style.innerHTML = `
+                @keyframes linkGlow {
+                    0% { box-shadow: 0 0 20px #8b0000; }
+                    100% { box-shadow: 0 0 60px #ff4500; }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        yaomingLink.style.animation = 'linkGlow 2s infinite alternate';
+        
+        var tip = document.createElement('div');
+        tip.style.position = 'fixed';
+        tip.style.top = '50%';
+        tip.style.left = '50%';
+        tip.style.transform = 'translate(-50%, -50%)';
+        tip.style.color = '#8b0000';
+        tip.style.fontSize = '48px';
+        tip.style.fontFamily = '"华文楷体", serif';
+        tip.style.letterSpacing = '8px';
+        tip.style.textShadow = '0 0 30px #ff0000';
+        tip.style.zIndex = '10001';
+        tip.style.backgroundColor = 'rgba(0,0,0,0.8)';
+        tip.style.padding = '20px 40px';
+        tip.style.borderRadius = '10px';
+        tip.style.border = '2px solid #8b0000';
+        tip.style.animation = 'fadeOut 3s forwards';
+        tip.innerText = '密文已启';
+        document.body.appendChild(tip);
+        
+        setTimeout(function() {
+            if (tip.parentNode) tip.parentNode.removeChild(tip);
+        }, 3000);
+    }
+}
+
+function checkRitualCompletion() {
+    try {
+        // 直接检查是否有完成标记
+        if (localStorage.getItem('liqingshan_ritual_completed') === 'true') {
+            console.log('检测到已完成，显示链接');
+            setTimeout(function() {
+                showYaomingLink();  // 现在可以找到这个函数了
+            }, 500);
+        } else {
+            console.log('未检测到完成状态');
+        }
+    } catch (e) {
+        console.error('检查仪式状态失败:', e);
+    }
+}
+
+// 然后调用检查
+checkRitualCompletion();
+
+
+           
+            
+           
+           
+            
+            var closeBtn = document.createElement('div');
+            closeBtn.style.marginTop = '60px';
+            closeBtn.style.marginBottom = '40px';
+            closeBtn.style.color = '#444';
+            closeBtn.style.fontSize = '16px';
+            closeBtn.style.fontFamily = 'monospace';
+            closeBtn.style.letterSpacing = '4px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.border = '1px solid #333';
+            closeBtn.style.padding = '12px 40px';
+            closeBtn.style.backgroundColor = 'transparent';
+            closeBtn.style.transition = 'all 0.5s';
+            closeBtn.innerText ='【 退 出 】';
+            
+            closeBtn.onmouseover = function() {
+                this.style.color = '#888';
+                this.style.borderColor = '#666';
+                this.style.backgroundColor = '#111';
+            };
+            closeBtn.onmouseout = function() {
+                this.style.color = '#444';
+                this.style.borderColor = '#333';
+                this.style.backgroundColor = 'transparent';
+            };
+            
+            closeBtn.onclick = function() {
+                document.body.removeChild(templeContainer);
+            };
+            
+            templeContainer.appendChild(closeBtn);
+            templeContainer.scrollTop = 0;
+        };
+        
+        document.body.appendChild(templeContainer);
+        
+        if (templeImg.complete) {
+            templeImg.style.opacity = '1';
+        }
+        
+    }, 5000);
+}
+
+// 添加动画样式
+var animStyle = document.createElement('style');
+animStyle.innerHTML = `
+    @keyframes fadeOut {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
+    }
+    @keyframes creepyFadeIn {
+        0% { opacity: 0; filter: blur(5px); }
+        50% { opacity: 0.5; filter: blur(2px); }
+        100% { opacity: 1; filter: blur(0); }
+    }
+`;
+document.head.appendChild(animStyle);
+
+window.onload = function() {
+    showPage('home');
+    createPaperModal();
+    displaySearchHistory();
+};
+
+</script>
+
+</body>
+</html>
